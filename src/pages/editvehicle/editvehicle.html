@@ -1,0 +1,68 @@
+<ion-card>
+    <ion-card-header>{{title}}</ion-card-header>
+    <div padding>
+        <ion-segment [(ngModel)]="vehicleSwitch">
+            <ion-segment-button value="data">
+                Daten
+            </ion-segment-button>
+            <ion-segment-button value="values">
+                Werte
+            </ion-segment-button>
+            <ion-segment-button value="image">
+                Foto
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+
+    <ion-card-content>
+        <div [ngSwitch]="vehicleSwitch">
+            <ion-list *ngSwitchCase="'data'">
+                <ion-item>
+                    <ion-label floating>Marke</ion-label>
+                    <ion-input type="text" [(ngModel)]="vehicle.make"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>Modell</ion-label>
+                    <ion-input type="text" [(ngModel)]="vehicle.model"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>Baujahr</ion-label>
+                    <ion-input type="number" [(ngModel)]="vehicle.builddate" [maxlength]="4"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label floating>Verbrauch pro 100KM</ion-label>
+                    <ion-input type="number" [(ngModel)]="vehicle.consumption"></ion-input>
+                </ion-item>
+            </ion-list>
+
+            <ion-list *ngSwitchCase="'values'">
+                <ion-item>
+                    <ion-label floating>Kilometerstand</ion-label>
+                    <ion-input type="number" [(ngModel)]="vehicle.mileage"></ion-input>
+                </ion-item>
+            </ion-list>
+
+
+            <ion-list *ngSwitchCase="'image'">
+                <ion-item *ngIf="vehicleImage">
+                    <img src="{{vehicleImage.url}}" width="{{vehicleImage.width}}" height="{{vehicleImage.height}}" />
+                    <button ion-button clear icon-only color="danger" (tap)="onImageDeleteTap()">
+                        <ion-icon name="close"></ion-icon> 
+                    </button>
+                </ion-item>
+
+                <ion-item>
+                    <button ion-button (tap)="onTakeImageTap()">
+                        <ion-icon item-left name="camera"></ion-icon>
+                        Foto machen
+                    </button>
+                </ion-item>
+            </ion-list>
+        </div>
+        <br />
+        <button ion-button full (tap)="onSaveButtonTap()">{{buttonText}}</button>
+    </ion-card-content>
+</ion-card>

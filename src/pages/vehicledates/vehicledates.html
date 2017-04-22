@@ -1,0 +1,37 @@
+<ion-item>
+    <button ion-button (tap)="onDateAddTap()">
+        <ion-icon item-left name="add"></ion-icon>
+        Termin erstellen
+    </button>
+</ion-item>
+
+<div *ngIf="showDateEdit">
+    <ion-list>
+        <ion-item>
+            <ion-label floating>Aktion</ion-label>
+            <ion-input type="text" [(ngModel)]="vehicleDate.action"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            
+            {{addDateText}}
+            <button ion-button icon-only item-right clear (tap)="onNewDatePickerTap()">
+                <ion-icon name="calendar"></ion-icon>
+            </button>
+
+            
+        </ion-item>
+
+        <ion-item>
+            <button ion-button small (tap)="onNewDateTap()">Termin hinzufügen</button>
+            
+        </ion-item>
+    </ion-list>
+</div>
+
+<ion-list>
+  <ion-item *ngFor="let vehicleDate of vehicleDates$ | async">
+    {{formatGermanDate(vehicleDate.date)}} {{vehicleDate.action}}
+    <button ion-button item-right icon-only color="danger" clear (tap)="onDateDeleteTap(vehicleDate)"><ion-icon name="close"></ion-icon></button>
+  </ion-item>
+</ion-list>
