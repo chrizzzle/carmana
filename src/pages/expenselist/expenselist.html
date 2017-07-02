@@ -1,0 +1,47 @@
+<ion-item>
+    <button ion-button (tap)="onExpenseAddTap()">
+        <ion-icon item-left name="add"></ion-icon>
+        Ausgabe erstellen
+    </button>
+</ion-item>
+
+<div *ngIf="showExpenseEdit">
+    <form [formGroup]="newExpense" (ngSubmit)="onNewExpenseTap()">
+        <ion-list>
+            <ion-item>
+                <ion-label floating>Aktion</ion-label>
+                <ion-input type="text" formControlName="type"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Betrag</ion-label>
+                <ion-input type="number" formControlName="amount"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Kilometerstand</ion-label>
+                <ion-input type="number" formControlName="mileage"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                {{addDateText}}
+                <button ion-button icon-only item-right clear (tap)="onDatePickerTap()">
+                    <ion-icon name="calendar"></ion-icon>
+                </button>
+            </ion-item>
+
+            <ion-item>
+                <button ion-button small (tap)="onNewExpenseTap()">Ausgabe hinzufügen</button>
+            </ion-item>
+        </ion-list>
+    </form>
+</div>
+
+<ion-list>
+  <ion-item *ngFor="let expense of expenses$ | async">
+    <h2>{{expense.id}} - {{expense.type}}</h2>
+    <h3>{{formatGermanDate(expense.date)}}</h3>
+    <p>{{expense.amount}}</p>
+    <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)"><ion-icon name="close"></ion-icon></button>
+  </ion-item>
+</ion-list>

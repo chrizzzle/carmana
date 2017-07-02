@@ -4,7 +4,8 @@ import { EditVehiclePage } from './pages/editvehicle/editvehicle';
 import { ViewVehiclePage } from './pages/viewvehicle/viewvehicle';
 import { VehicleListPage } from './pages/vehiclelist/vehiclelist';
 import { VehicleDatesPage } from './pages/vehicledates/vehicledates';
-import { FuelListPage } from './pages/fuellist/fuellist';
+import { ExpenseListPage } from './pages/expenselist/expenselist';
+import { StatisticsPage } from './pages/statistics/statistics';
 
 const routes: Routes = [{
     path: '',
@@ -25,8 +26,11 @@ const routes: Routes = [{
     path: 'vehicledates/:vehicleId',
     component: VehicleDatesPage
 }, {
-    path: 'fuellist/:vehicleId',
-    component: FuelListPage
+    path: 'expenselist/:vehicleId',
+    component: ExpenseListPage
+}, {
+    path: 'statistics/:vehicleId',
+    component: StatisticsPage
 }];
 
 export const routing = RouterModule.forRoot(routes);

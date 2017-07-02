@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Vehicle } from '../models/vehicle';
 import { VehicleDate } from '../models/vehicledate';
 import { VehicleImage } from '../models/vehicleimage';
-import { FuelEvent } from '../models/fuelevent';
+import { Expense } from '../models/expense';
 import { Payload} from '../models/payload';
 
 
@@ -16,8 +16,8 @@ export class VehicleActions {
     static DELETE_VEHICLE_IMAGE = 'DELETE_VEHICLE_IMAGE';
     static ADD_VEHICLE_DATE = 'ADD_VEHICLE_DATE';
     static DELETE_VEHICLE_DATE = 'DELETE_VEHICLE_DATE';
-    static ADD_FUEL_EVENT = 'ADD_FUEL_EVENT';
-    static DELETE_FUEL_EVENT = 'DELETE_FUEL_EVENT';
+    static ADD_EXPENSE = 'ADD_EXPENSE';
+    static DELETE_EXPENSE = 'DELETE_EXPENSE';
 
     addVehicle(vehicle: Vehicle) : Payload {
         return {
@@ -68,17 +68,17 @@ export class VehicleActions {
         };
     }
 
-    addFuelEvent(fuelEvent : FuelEvent) : Payload {
+    addExpense(expense : Expense) : Payload {
         return {
-            type: VehicleActions.ADD_FUEL_EVENT,
-            payload: fuelEvent
+            type: VehicleActions.ADD_EXPENSE,
+            payload: expense
         };
     }
 
-    deleteFuelEvent(fuelEvent : FuelEvent) : Payload {
+    deleteExpense(expense : Expense) : Payload {
         return {
-            type: VehicleActions.DELETE_FUEL_EVENT,
-            payload: fuelEvent
+            type: VehicleActions.DELETE_EXPENSE,
+            payload: expense
         }
     }
 }

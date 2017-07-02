@@ -1,6 +1,8 @@
 <ion-content>
   <ion-card>
-    <img *ngIf="vehicleImage" src="{{vehicleImage.url}}" width="{{vehicleImage.width}}" height="{{vehicleImage.height}}" />
+    <div padding>
+      <img *ngIf="vehicleImage" src="{{vehicleImage.url}}" width="{{vehicleImage.width}}" height="{{vehicleImage.height}}" />
+    </div>
     <ion-card-content>
       <ion-card-title>
         {{vehicle.make}} {{vehicle.model}}

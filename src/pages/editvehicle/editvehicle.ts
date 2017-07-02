@@ -5,10 +5,9 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../store';
 import { VehicleActions } from '../../app/app.actions';
-import { Camera, DatePicker } from 'ionic-native';
+import { Camera } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import { IdGeneratorService } from '../../services/id-generator';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
     templateUrl: './editvehicle.html',

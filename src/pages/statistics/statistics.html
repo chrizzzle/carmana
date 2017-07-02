@@ -1,0 +1,11 @@
+<ion-content>
+<canvas baseChart width="400" height="400"
+                [datasets]="lineChartData"
+                [labels]="months"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+
+    <p>Gesamte Ausgaben: {{totalAmount}}</p>
+</ion-content>

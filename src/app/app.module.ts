@@ -6,7 +6,10 @@ import { AddVehiclePage } from '../pages/addvehicle/addvehicle';
 import { ViewVehiclePage } from '../pages/viewvehicle/viewvehicle';
 import { EditVehiclePage } from '../pages/editvehicle/editvehicle';
 import { VehicleDatesPage } from '../pages/vehicledates/vehicledates';
-import { FuelListPage } from '../pages/fuellist/fuellist';
+import { ExpenseListPage } from '../pages/expenselist/expenselist';
+import { StatisticsPage } from '../pages/statistics/statistics';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+
 
 import { routing } from '../routes';
 
@@ -24,13 +27,15 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
     ViewVehiclePage,
     EditVehiclePage,
     VehicleDatesPage,
-    FuelListPage
+    ExpenseListPage,
+    StatisticsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     NgReduxModule,
-    routing
+    routing,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

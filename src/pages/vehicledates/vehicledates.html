@@ -14,7 +14,7 @@
 
         <ion-item>
             
-            {{addDateText}}
+            <ion-label>{{addDateText}}</ion-label>
             <button ion-button icon-only item-right clear (tap)="onNewDatePickerTap()">
                 <ion-icon name="calendar"></ion-icon>
             </button>
@@ -24,7 +24,6 @@
 
         <ion-item>
             <button ion-button small (tap)="onNewDateTap()">Termin hinzufügen</button>
-            
         </ion-item>
     </ion-list>
 </div>

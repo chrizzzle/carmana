@@ -7,7 +7,7 @@ import { IAppState } from '../../store';
 import { VehicleActions } from '../../app/app.actions';
 import { DatePicker } from 'ionic-native';
 import { Platform } from 'ionic-angular';
-import { Router, ActivatedRoute, Params} from '@angular/router';
+import { ActivatedRoute, Params} from '@angular/router';
 import { DateFormat } from '../../services/date-format';
 import { IdGeneratorService } from '../../services/id-generator';
 
@@ -20,8 +20,8 @@ import { IdGeneratorService } from '../../services/id-generator';
 })
 export class VehicleDatesPage {
     vehicleDates$ : Observable<VehicleDate[]>;
-    private vehicleDate : VehicleDate;
-    private showDateEdit : boolean = false;
+    vehicleDate : VehicleDate;
+    showDateEdit : boolean = false;
     private vehicle : Vehicle;
     private title : string;
     addDateText: string = 'Datum wählen';
@@ -73,7 +73,7 @@ export class VehicleDatesPage {
         if (this.platform.is('cordova')) {
             this.showDatePicker();
         } else {
-            this.insertDate(new Date('2017-04-15'));
+            this.insertDate(DateFormat.createRandomDateFuture());
         }
     }
 

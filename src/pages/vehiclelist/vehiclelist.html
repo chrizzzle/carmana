@@ -9,6 +9,10 @@
       <button item-right icon-only ion-button clear (click)="onVehicleDateTap($event, vehicle)" *ngIf="hasVehicleDates(vehicle)">
         <ion-icon name="calendar" [isActive]="!!hasVehicleDateToday(vehicle)"></ion-icon>
       </button>
+
+      <button item-right icon-only ion-button clear (click)="onVehicleStatsTap($event, vehicle)" *ngIf="hasVehicleStats(vehicle)">
+        <ion-icon name="ion-stats-bars"></ion-icon>
+      </button>
     </ion-item>
   </ion-list>
 

@@ -130,8 +130,20 @@ export class VehicleListPage {
     this.router.navigate(['/vehicledates', vehicle.id]);
   }
 
-  viewFuelList(vehicle : Vehicle) : void {
-    this.router.navigate(['/fuellist', vehicle.id]);
+  viewExpenseList(vehicle : Vehicle) : void {
+    this.router.navigate(['/expenselist', vehicle.id]);
+  }
+
+  onVehicleStatsTap(event : Event, vehicle : Vehicle) : void {
+    this.router.navigate(['/statistics', vehicle.id]);
+  }
+
+  hasVehicleStats(vehicle : Vehicle) {
+    return true;
+  }
+
+  viewStatisticsFn(vehicle : Vehicle) {
+    this.router.navigate(['/statistics', vehicle.id]);
   }
 
   presentActionSheet(vehicle: Vehicle) : void {
@@ -139,7 +151,8 @@ export class VehicleListPage {
       const viewVehicleFn = this.viewVehicle.bind(this);
       const editVehicleFn = this.editVehicle.bind(this); 
       const viewVehicleDatesFn = this.viewVehicleDates.bind(this);
-      const viewFuelListFn = this.viewFuelList.bind(this);
+      const viewExpenseListFn = this.viewExpenseList.bind(this);
+      const viewStatisicsFn = this.viewStatisticsFn.bind(this);
 
       let actionSheet = this.actionSheetCtrl.create({
       title: 'Fahrzeug bearbeiten',
@@ -166,9 +179,14 @@ export class VehicleListPage {
             viewVehicleDatesFn(vehicle);
           }
         }, {
-          text: 'Tanken',
+          text: 'Ausgaben',
           handler: () => {
-            viewFuelListFn(vehicle);
+            viewExpenseListFn(vehicle);
+          }
+        }, {
+          text: 'Statistiken',
+          handler: () => {
+            viewStatisicsFn(vehicle)
           }
         }, {
           text: 'Abbrechen',
