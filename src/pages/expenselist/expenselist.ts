@@ -13,6 +13,7 @@ import { DatePicker } from 'ionic-native';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/merge';
+import {ExpenseType} from "../../models/expense-type";
 
 @Component({
     templateUrl: './expenselist.html',
@@ -96,16 +97,27 @@ export class ExpenseListPage {
     onNewExpenseTap() {
         const getIdFn = this.idGenerator.getId.bind(this);
         const vehicleId = this.vehicle.id;
+        const formValue = this.newExpense.value;
 
         let expense : Expense = {
-            ...this.newExpense.value
-        }
+            id: getIdFn(),
+            vehicleId: vehicleId,
+            type: formValue.type,
+            date: formValue.date,
+            mileage: formValue.mileage,
+            amount: formValue.amount
+        };
 
-        expense.id = getIdFn();
-        expense.vehicleId = vehicleId;
-
+        console.log(expense);
         this.ngRedux.dispatch(this.vehicleActions.addExpense(expense));
         this.showExpenseEdit = !this.showExpenseEdit;
+    }
+
+    expenseTypes() {
+        let expenseTypes = new ExpenseType();
+        console.log(Object.keys(expenseTypes));
+
+        return Object.keys(expenseTypes);
     }
 
     formatGermanDate(date) {
