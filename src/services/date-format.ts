@@ -6,9 +6,9 @@ export class DateFormat {
         if (!Boolean(date)) {
             return '';
         }
-        
-        const day = date.getDate();
-        const month = date.getMonth();
+
+        const day = DateFormat.leftPad(date.getDate());
+        const month = DateFormat.leftPad(date.getMonth());
         const year = date.getFullYear();
 
         return `${day}.${month}.${year}`;
@@ -31,5 +31,10 @@ export class DateFormat {
 
     static createRandomDateFuture() {
         return DateFormat.createRandomDate(false);
+    }
+
+    static leftPad(value: number): string {
+      if (value < 10) {return '0' + value}
+      return value + '';
     }
 }

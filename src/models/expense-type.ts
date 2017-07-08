@@ -1,10 +1,11 @@
 export class ExpenseType {
-    TYPE_CREDIT: string = 'Kredit';
-    TYPE_LEASING: string = 'Leasing';
-    TYPE_TAX: string = 'Steuer';
-    TYPE_INSURANCE: string = 'Versicherung';
-    TYPE_REPAIR: string = 'Reparatur';
-    TYPE_CLEAN: string = 'Pflege';
-    TYPE_TUNING: string = 'Erweiterungen';
-    TYPE_OTHER: string = 'Sonstiges';
+  static TYPE_CREDIT: string = 'Kredit';
+  static TYPE_FUEL: string = 'Tanken';
+  static TYPE_LEASING: string = 'Leasing';
+  static TYPE_TAX: string = 'Steuer';
+  static TYPE_INSURANCE: string = 'Versicherung';
+  static TYPE_REPAIR: string = 'Reparatur';
+  static TYPE_MAINTENANCE: string = 'Pflege / Instandhaltung';
+  static TYPE_TUNING: string = 'Erweiterungen / Tuning';
+  static TYPE_OTHER: string = 'Sonstiges';
 }

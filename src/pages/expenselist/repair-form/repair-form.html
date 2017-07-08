@@ -1,0 +1,36 @@
+<h4 padding-left>Ausgabe erfassen - Reparatur</h4>
+
+<form (ngSubmit)="onFormSubmit()" [formGroup]="newExpenseGroup">
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Betrag</ion-label>
+      <ion-input type="number" formControlName="amount"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Kilometerstand</ion-label>
+      <ion-input type="number" formControlName="mileage"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Art</ion-label>
+      <ion-input type="number" formControlName="repair"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      {{addDateText}}
+      <button type="button" ion-button icon-only item-right clear (tap)="onDatePickerTap()">
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+    </ion-item>
+
+    <ion-item>
+      <button
+        ion-button
+        small
+        [disabled]="!newExpenseGroup.valid">
+        Ausgabe hinzufügen
+      </button>
+    </ion-item>
+  </ion-list>
+</form>

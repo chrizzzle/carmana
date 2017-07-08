@@ -5,9 +5,9 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../store';
 import { VehicleActions } from '../../app/app.actions';
-import { Camera } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import { IdGeneratorService } from '../../services/id-generator';
+import {Camera} from '@ionic-native/camera';
 
 @Component({
     templateUrl: './editvehicle.html',
@@ -28,7 +28,8 @@ export class EditVehiclePage {
         private ngRedux : NgRedux<IAppState>,
         private vehicleActions: VehicleActions,
         private idGeneratorService: IdGeneratorService,
-        private platform : Platform        
+        private platform : Platform,
+        private camera: Camera
     ) {
         this.vehicleSwitch = 'data';
     }
@@ -91,8 +92,8 @@ export class EditVehiclePage {
 
     takePicture() : void {
         const dispatchImageFn = this.dispatchImageAdd.bind(this);
-        Camera.getPicture({
-            destinationType: Camera.DestinationType.FILE_URI,
+        this.camera.getPicture({
+            destinationType: this.camera.DestinationType.FILE_URI,
             targetWidth: 300,
             targetHeight: 300
         })

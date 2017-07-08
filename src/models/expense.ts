@@ -1,6 +1,6 @@
 import {ExpenseType} from "./expense-type";
 
-export interface Expense {
+export class Expense {
     id: string;
     type: ExpenseType;
     date: Date;

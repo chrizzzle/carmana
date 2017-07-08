@@ -5,7 +5,7 @@
         <img src="{{getVehicleImage(vehicle)}}">
       </ion-avatar>
       <h2>{{vehicle.make}} {{vehicle.model}}</h2>
-      <p>Kilometerstand: {{vehicle.mileage}}</p>
+      <p *ngIf="vehicle.mileage">Kilometerstand: {{vehicle.mileage}}</p>
       <button item-right icon-only ion-button clear (click)="onVehicleDateTap($event, vehicle)" *ngIf="hasVehicleDates(vehicle)">
         <ion-icon name="calendar" [isActive]="!!hasVehicleDateToday(vehicle)"></ion-icon>
       </button>

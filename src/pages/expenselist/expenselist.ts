@@ -1,16 +1,13 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { Vehicle } from '../../models/vehicle';
 import { Expense } from '../../models/expense';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState} from '../../store';
 import { VehicleActions } from '../../app/app.actions';
-import { Params, ActivatedRoute } from '@angular/router';
+import {Params, ActivatedRoute, Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { IdGeneratorService } from '../../services/id-generator';
 import { DateFormat } from '../../services/date-format';
-import { Platform } from 'ionic-angular';
-import { DatePicker } from 'ionic-native';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/merge';
 import {ExpenseType} from "../../models/expense-type";
@@ -25,18 +22,16 @@ import {ExpenseType} from "../../models/expense-type";
 export class ExpenseListPage {
     private vehicle : Vehicle;
     expenses$ : Observable<Expense[]>;
-    newExpense : FormGroup;
     showExpenseEdit : Boolean = false;
     addDateText: string = 'Datum hinzufügen';
+    expenseTypes: Array<any>;
 
     public constructor(
         private ngRedux : NgRedux<IAppState>,
         private route : ActivatedRoute,
         private vehicleActions : VehicleActions,
-        private idGenerator : IdGeneratorService,
-        private platform : Platform,
-        private formBuilder : FormBuilder
-    ) { 
+        private router: Router
+    ) {
         this.expenses$ = this.ngRedux.select('expenseList')
         .withLatestFrom(this.route.params, ( expenses : Expense[], params : Params) => expenses
                 .filter((expense : Expense) => expense.vehicleId === params['vehicleId'])
@@ -47,77 +42,23 @@ export class ExpenseListPage {
                 })
         );
 
-        this.route.params
-            .withLatestFrom(this.ngRedux
-                .select('vehicles'), (params : Params, vehicles : Vehicle[]) => vehicles
+      this.ngRedux.select('vehicles')
+            .withLatestFrom(this.route.params, (vehicles : Vehicle[], params : Params) => vehicles
                     .find(vehicle => vehicle.id === params['vehicleId'])).subscribe((vehicle : Vehicle) => {
             this.vehicle = Object.assign({}, vehicle);
         });
 
-        this.newExpense = this.formBuilder.group({
-            type: ['', Validators.required],
-            amount: [0, Validators.required],
-            mileage: [this.vehicle.mileage, Validators.required],
-            date: ['', Validators.required]
-        });
+        this.expenseTypes = this.getExpenseTypes();
     }
 
     onExpenseAddTap() {
         this.showExpenseEdit = !this.showExpenseEdit;
-
-        if (this.showExpenseEdit) {
-            this.addDateText = 'Datum hinzufügen';
-        }
     }
 
-    insertDate (date) {
-        this.addDateText = DateFormat.formatGermanDate(date);
-    }
-
-    onDatePickerTap() : void {
-        if (this.platform.is('cordova')) {
-            this.showDatePicker();
-        } else {
-            this.insertDate(DateFormat.createRandomDatePast());
-        }
-    }
-
-    showDatePicker() : void {
-        const insertDateFn = this.insertDate.bind(this);
-
-        DatePicker.show({
-            date: new Date(),
-            mode: 'date',
-        }).then(
-            insertDateFn,
-            err => console.log('Error occurred while getting date: ', err)
-        );
-    }
-
-    onNewExpenseTap() {
-        const getIdFn = this.idGenerator.getId.bind(this);
-        const vehicleId = this.vehicle.id;
-        const formValue = this.newExpense.value;
-
-        let expense : Expense = {
-            id: getIdFn(),
-            vehicleId: vehicleId,
-            type: formValue.type,
-            date: formValue.date,
-            mileage: formValue.mileage,
-            amount: formValue.amount
-        };
-
-        console.log(expense);
-        this.ngRedux.dispatch(this.vehicleActions.addExpense(expense));
-        this.showExpenseEdit = !this.showExpenseEdit;
-    }
-
-    expenseTypes() {
-        let expenseTypes = new ExpenseType();
-        console.log(Object.keys(expenseTypes));
-
-        return Object.keys(expenseTypes);
+    getExpenseTypes() {
+        return Object.keys(ExpenseType).map((key: string) => {
+          return ExpenseType[key];
+        });
     }
 
     formatGermanDate(date) {
@@ -129,5 +70,26 @@ export class ExpenseListPage {
 
     onExpenseDeleteTap(expense : Expense) {
         this.ngRedux.dispatch(this.vehicleActions.deleteExpense(expense));
+    }
+
+    onExpenseFormSelectChange(expenseType) {
+      console.log(expenseType, ExpenseType.TYPE_CREDIT);
+        switch (expenseType) {
+          case ExpenseType.TYPE_CREDIT:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['credit-form']}}]);
+            return;
+          case ExpenseType.TYPE_FUEL:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['fuel-form']}}]);
+            return;
+          case ExpenseType.TYPE_INSURANCE:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['insurance-form']}}]);
+            return;
+          case ExpenseType.TYPE_LEASING:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['leasing-form']}}]);
+            return;
+          case ExpenseType.TYPE_REPAIR:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['leasing-form']}}]);
+            return;
+        }
     }
 }

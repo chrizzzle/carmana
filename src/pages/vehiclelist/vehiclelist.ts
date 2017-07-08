@@ -58,7 +58,7 @@ export class VehicleListPage {
     if (vehicleDates.length <= 0) {
       return -1;
     }
-    
+
     if (vehicleDates.length > 0 && this.vehicleDateToday(vehicleDates)) {
       return 1;
     }
@@ -73,11 +73,11 @@ export class VehicleListPage {
   }
 
   dateIsToday(date : Date) {
-    date = typeof(date) === 'Date' ? date : new Date(date);
+    date = typeof(date) === 'object' ? date : new Date(date);
     const today = new Date();
 
-    return (date.getDate() === today.getDate() && 
-      date.getMonth() === today.getMonth() && 
+    return (date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear());
   }
 
@@ -149,7 +149,7 @@ export class VehicleListPage {
   presentActionSheet(vehicle: Vehicle) : void {
       const removeVehiclFn = this.removeVehiclePrompt.bind(this);
       const viewVehicleFn = this.viewVehicle.bind(this);
-      const editVehicleFn = this.editVehicle.bind(this); 
+      const editVehicleFn = this.editVehicle.bind(this);
       const viewVehicleDatesFn = this.viewVehicleDates.bind(this);
       const viewExpenseListFn = this.viewExpenseList.bind(this);
       const viewStatisicsFn = this.viewStatisticsFn.bind(this);

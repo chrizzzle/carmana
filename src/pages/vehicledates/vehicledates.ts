@@ -5,11 +5,11 @@ import { Vehicle } from '../../models/vehicle';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../store';
 import { VehicleActions } from '../../app/app.actions';
-import { DatePicker } from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import { ActivatedRoute, Params} from '@angular/router';
 import { DateFormat } from '../../services/date-format';
 import { IdGeneratorService } from '../../services/id-generator';
+import {DatePicker} from '@ionic-native/date-picker';
 
 @Component({
     templateUrl: 'vehicledates.html',
@@ -32,8 +32,9 @@ export class VehicleDatesPage {
         private route : ActivatedRoute,
         private idGeneratorService: IdGeneratorService,
         private platform : Platform,
+        private datePicker: DatePicker
     ) {
-        
+
     }
 
     ngOnInit() {
@@ -80,7 +81,7 @@ export class VehicleDatesPage {
     showDatePicker() : void {
         const insertDateFn = this.insertDate.bind(this);
 
-        DatePicker.show({
+        this.datePicker.show({
             date: new Date(),
             mode: 'date',
         }).then(
