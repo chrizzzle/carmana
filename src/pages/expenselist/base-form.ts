@@ -4,6 +4,11 @@ import {Platform} from 'ionic-angular';
 import {ActivatedRoute} from '@angular/router';
 import {Vehicle} from '../../models/vehicle';
 import {FormGroup} from '@angular/forms';
+import {VehicleActions} from '../../app/app.actions';
+import {NgRedux} from '@angular-redux/store';
+import {IAppState} from '../../store';
+import {IdGeneratorService} from '../../services/id-generator';
+import {Expense} from '../../models/expense';
 
 
 export abstract class BaseForm {
@@ -15,7 +20,10 @@ export abstract class BaseForm {
   constructor(
     private datePicker: DatePicker,
     private platform: Platform,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private ngRedux : NgRedux<IAppState>,
+    private vehicleActions: VehicleActions,
+    private idGenerator : IdGeneratorService,
   ) {
     this.addDateText = DateFormat.formatGermanDate(this.expenseDate);
     this.vehicle = this.activatedRoute.snapshot.data['vehicle'];
@@ -53,5 +61,28 @@ export abstract class BaseForm {
   resetForm() {
     this.addDateText = DateFormat.formatGermanDate(this.expenseDate);
     this.newExpenseGroup.reset();
+  }
+
+  onFormSubmit() {
+    const getIdFn = this.idGenerator.getId.bind(this);
+    const vehicleId = this.vehicle.id;
+    const formValue = this.newExpenseGroup.value;
+
+    if (!this.newExpenseGroup.valid) {
+      return;
+    }
+
+    let expense = this.createModel(formValue, getIdFn(), vehicleId);
+
+    this.ngRedux.dispatch(this.vehicleActions.addExpense(expense));
+    this.resetForm();
+  }
+
+  createModel(formValue, id, vehicleId): Expense {
+    return {
+      ...formValue,
+      id: id,
+      vehicleId: vehicleId
+    };
   }
 }

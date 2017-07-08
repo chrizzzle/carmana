@@ -16,18 +16,23 @@ import {InsuranceExpense} from '../../../models/expense-type/insurance-expense';
   providers: [DatePicker]
 })
 export class InsuranceForm extends BaseForm {
-  newExpenseGroup : FormGroup;
-
   constructor(
     private formBuilder : FormBuilder,
-    private idGenerator : IdGeneratorService,
-    private ngRedux : NgRedux<IAppState>,
-    private vehicleActions: VehicleActions,
+    idGenerator : IdGeneratorService,
+    ngRedux : NgRedux<IAppState>,
+    vehicleActions: VehicleActions,
     datePicker: DatePicker,
     platform : Platform,
     activatedRoute: ActivatedRoute
   ) {
-    super(datePicker, platform, activatedRoute);
+    super(
+      datePicker,
+      platform,
+      activatedRoute,
+      ngRedux,
+      vehicleActions,
+      idGenerator
+    );
 
     this.newExpenseGroup = this.formBuilder.group({
       type: [ExpenseType.TYPE_INSURANCE, Validators.required],
@@ -35,25 +40,5 @@ export class InsuranceForm extends BaseForm {
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required]
     });
-  }
-
-  onFormSubmit() {
-    const getIdFn = this.idGenerator.getId.bind(this);
-    const vehicleId = this.vehicle.id;
-    const formValue = this.newExpenseGroup.value;
-
-    if (!this.newExpenseGroup.valid) {
-      return;
-    }
-
-    let insuranceExpense : InsuranceExpense = {
-      ...formValue,
-      id: getIdFn(),
-      vehicleId: vehicleId
-    };
-
-    this.ngRedux.dispatch(this.vehicleActions.addExpense(insuranceExpense));
-
-    this.resetForm();
   }
 }

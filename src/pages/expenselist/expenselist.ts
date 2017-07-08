@@ -88,7 +88,7 @@ export class ExpenseListPage {
             this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['leasing-form']}}]);
             return;
           case ExpenseType.TYPE_REPAIR:
-            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['leasing-form']}}]);
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['repair-form']}}]);
             return;
         }
     }

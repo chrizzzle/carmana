@@ -9,7 +9,6 @@ import {IAppState} from '../../../store';
 import {DatePicker} from '@ionic-native/date-picker';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
-import {OtherExpense} from '../../../models/expense-type/other-expense';
 
 @Component({
   templateUrl: 'other-form.html',
@@ -18,45 +17,30 @@ import {OtherExpense} from '../../../models/expense-type/other-expense';
   ]
 })
 export class OtherForm extends BaseForm {
-  newExpenseGroup : FormGroup;
-
   constructor(
     private formBuilder : FormBuilder,
-    private idGenerator : IdGeneratorService,
-    private ngRedux : NgRedux<IAppState>,
-    private vehicleActions: VehicleActions,
+    idGenerator : IdGeneratorService,
+    ngRedux : NgRedux<IAppState>,
+    vehicleActions: VehicleActions,
     datePicker: DatePicker,
     platform : Platform,
     activatedRoute: ActivatedRoute
   ) {
-    super(datePicker, platform, activatedRoute);
+    super(
+      datePicker,
+      platform,
+      activatedRoute,
+      ngRedux,
+      vehicleActions,
+      idGenerator
+    );
 
     this.newExpenseGroup = this.formBuilder.group({
-      type: [ExpenseType.TYPE_FUEL, Validators.required],
+      type: [ExpenseType.TYPE_OTHER, Validators.required],
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required],
       other: ['']
     });
-  }
-
-  onFormSubmit() {
-    const getIdFn = this.idGenerator.getId.bind(this);
-    const vehicleId = this.vehicle.id;
-    const formValue = this.newExpenseGroup.value;
-
-    if (!this.newExpenseGroup.valid) {
-      return;
-    }
-
-    let fuelExpense : OtherExpense = {
-      ...formValue,
-      id: getIdFn(),
-      vehicleId: vehicleId
-    };
-
-    this.ngRedux.dispatch(this.vehicleActions.addExpense(fuelExpense));
-
-    this.resetForm();
   }
 }

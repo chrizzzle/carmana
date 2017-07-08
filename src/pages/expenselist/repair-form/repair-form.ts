@@ -12,20 +12,27 @@ import {ExpenseType} from '../../../models/expense-type';
 import {RepairExpense} from '../../../models/expense-type/repair-expense';
 
 @Component({
-  templateUrl: '../base-form.html',
+  templateUrl: 'repair-form.html',
   providers: [DatePicker]
 })
 export class RepairForm extends BaseForm {
   constructor(
     private formBuilder : FormBuilder,
-    private idGenerator : IdGeneratorService,
-    private ngRedux : NgRedux<IAppState>,
-    private vehicleActions: VehicleActions,
+    idGenerator : IdGeneratorService,
+    ngRedux : NgRedux<IAppState>,
+    vehicleActions: VehicleActions,
     datePicker: DatePicker,
     platform : Platform,
     activatedRoute: ActivatedRoute
   ) {
-    super(datePicker, platform, activatedRoute);
+    super(
+      datePicker,
+      platform,
+      activatedRoute,
+      ngRedux,
+      vehicleActions,
+      idGenerator
+    );
 
     this.newExpenseGroup = this.formBuilder.group({
       type: [ExpenseType.TYPE_REPAIR, Validators.required],
@@ -34,25 +41,5 @@ export class RepairForm extends BaseForm {
       date: [this.expenseDate, Validators.required],
       repair: ['']
     });
-  }
-
-  onFormSubmit() {
-    const getIdFn = this.idGenerator.getId.bind(this);
-    const vehicleId = this.vehicle.id;
-    const formValue = this.newExpenseGroup.value;
-
-    if (!this.newExpenseGroup.valid) {
-      return;
-    }
-
-    let leasingExpense: RepairExpense = {
-      ...formValue,
-      id: getIdFn(),
-      vehicleId: vehicleId
-    };
-
-    this.ngRedux.dispatch(this.vehicleActions.addExpense(leasingExpense));
-
-    this.resetForm();
   }
 }
