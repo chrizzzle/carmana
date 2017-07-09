@@ -1,4 +1,5 @@
-<h4 padding>{{title}}</h4>
+<h4 padding-left>Ausgabe erfassen - Reparatur</h4>
+
 <form (ngSubmit)="onFormSubmit()" [formGroup]="newExpenseGroup">
   <ion-list>
     <ion-item>
@@ -9,6 +10,11 @@
     <ion-item>
       <ion-label floating>Kilometerstand</ion-label>
       <ion-input type="number" formControlName="mileage"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Art</ion-label>
+      <ion-input type="text" formControlName="tuning"></ion-input>
     </ion-item>
 
     <ion-item>

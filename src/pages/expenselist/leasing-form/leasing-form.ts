@@ -17,6 +17,7 @@ import {LeasingExpense} from '../../../models/expense-type/leasing-expense';
   providers: [DatePicker]
 })
 export class LeasingForm extends BaseForm {
+  title = 'Leasingrate erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,

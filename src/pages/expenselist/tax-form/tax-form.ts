@@ -1,24 +1,23 @@
-import {Component} from '@angular/core';
 import {BaseForm} from '../base-form';
+import {DatePicker} from '@ionic-native/date-picker';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
-import {VehicleActions} from '../../../app/app.actions';
 import {NgRedux} from '@angular-redux/store';
-import {ActivatedRoute} from '@angular/router';
+import {VehicleActions} from '../../../app/app.actions';
 import {IAppState} from '../../../store';
-import {DatePicker} from '@ionic-native/date-picker';
+import {ActivatedRoute} from '@angular/router';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
-import {FuelExpense} from '../../../models/expense-type/fuel-expense';
+import {InsuranceExpense} from '../../../models/expense-type/insurance-expense';
+import {LeasingExpense} from '../../../models/expense-type/leasing-expense';
 
 @Component({
-  templateUrl: 'fuel-form.html',
-  providers: [
-    DatePicker
-  ]
+  templateUrl: '../base-form.html',
+  providers: [DatePicker]
 })
-export class FuelForm extends BaseForm {
-  title = 'Tankausgabe erfassen';
+export class TaxForm extends BaseForm {
+  title = 'Steuerzahlung erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,
@@ -38,11 +37,10 @@ export class FuelForm extends BaseForm {
     );
 
     this.newExpenseGroup = this.formBuilder.group({
-      type: [ExpenseType.TYPE_FUEL, Validators.required],
+      type: [ExpenseType.TYPE_TAX, Validators.required],
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
-      date: [this.expenseDate, Validators.required],
-      litres: [0]
+      date: [this.expenseDate, Validators.required]
     });
   }
 }

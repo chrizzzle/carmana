@@ -17,6 +17,7 @@ import {ExpenseType} from '../../../models/expense-type';
   ]
 })
 export class OtherForm extends BaseForm {
+  title = 'Sonstige Ausgabe erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,

@@ -6,13 +6,13 @@
 </ion-item>
 
 <div *ngIf="showExpenseEdit">
-  <ion-item>
-    <ion-label floating>Aktion</ion-label>
+  <ion-item padding-bottom>
+    <p>Bitte wählen Sie den Typ der Ausgabe aus</p>
+    <ion-label floating>Ausgabentyp</ion-label>
     <ion-select (ionChange)="onExpenseFormSelectChange($event)">
       <ion-option *ngFor="let expenseType of expenseTypes" value="{{expenseType}}">{{expenseType}}</ion-option>
     </ion-select>
   </ion-item>
-
 </div>
 
 <router-outlet name="expenseform"></router-outlet>

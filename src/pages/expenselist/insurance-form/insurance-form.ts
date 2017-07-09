@@ -16,6 +16,7 @@ import {InsuranceExpense} from '../../../models/expense-type/insurance-expense';
   providers: [DatePicker]
 })
 export class InsuranceForm extends BaseForm {
+  title = 'Versicherungszahlung erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,

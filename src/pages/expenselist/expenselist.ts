@@ -73,7 +73,6 @@ export class ExpenseListPage {
     }
 
     onExpenseFormSelectChange(expenseType) {
-      console.log(expenseType, ExpenseType.TYPE_CREDIT);
         switch (expenseType) {
           case ExpenseType.TYPE_CREDIT:
             this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['credit-form']}}]);
@@ -87,8 +86,17 @@ export class ExpenseListPage {
           case ExpenseType.TYPE_LEASING:
             this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['leasing-form']}}]);
             return;
+          case ExpenseType.TYPE_MAINTENANCE:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['maintenance-form']}}]);
+            return;
           case ExpenseType.TYPE_REPAIR:
             this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['repair-form']}}]);
+            return;
+          case ExpenseType.TYPE_TAX:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['tax-form']}}]);
+            return;
+          case ExpenseType.TYPE_TUNING:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['tuning-form']}}]);
             return;
         }
     }

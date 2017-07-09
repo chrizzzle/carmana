@@ -16,6 +16,7 @@ import {RepairExpense} from '../../../models/expense-type/repair-expense';
   providers: [DatePicker]
 })
 export class RepairForm extends BaseForm {
+  title = 'Ausgabe für Reparatur erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,

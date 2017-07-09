@@ -18,6 +18,7 @@ import {BaseForm} from '../base-form';
   ]
 })
 export class CreditForm extends BaseForm {
+  title = 'Kreditzahlung erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,

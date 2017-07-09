@@ -1,24 +1,22 @@
-import {Component} from '@angular/core';
 import {BaseForm} from '../base-form';
+import {DatePicker} from '@ionic-native/date-picker';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
-import {VehicleActions} from '../../../app/app.actions';
 import {NgRedux} from '@angular-redux/store';
-import {ActivatedRoute} from '@angular/router';
+import {VehicleActions} from '../../../app/app.actions';
 import {IAppState} from '../../../store';
-import {DatePicker} from '@ionic-native/date-picker';
+import {ActivatedRoute} from '@angular/router';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
-import {FuelExpense} from '../../../models/expense-type/fuel-expense';
+import {RepairExpense} from '../../../models/expense-type/repair-expense';
 
 @Component({
-  templateUrl: 'fuel-form.html',
-  providers: [
-    DatePicker
-  ]
+  templateUrl: 'src/pages/expenselist/tuning-form/tuning-form.html',
+  providers: [DatePicker]
 })
-export class FuelForm extends BaseForm {
-  title = 'Tankausgabe erfassen';
+export class TuningForm extends BaseForm {
+  title = 'Ausgabe für Zubehör / Tuning erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,
@@ -38,11 +36,11 @@ export class FuelForm extends BaseForm {
     );
 
     this.newExpenseGroup = this.formBuilder.group({
-      type: [ExpenseType.TYPE_FUEL, Validators.required],
+      type: [ExpenseType.TYPE_REPAIR, Validators.required],
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required],
-      litres: [0]
+      tuning: ['']
     });
   }
 }

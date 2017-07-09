@@ -12,6 +12,10 @@ import {FuelForm} from './pages/expenselist/fuel-form/fuel-form';
 import {InsuranceForm} from './pages/expenselist/insurance-form/insurance-form';
 import {LeasingForm} from './pages/expenselist/leasing-form/leasing-form';
 import {RepairForm} from './pages/expenselist/repair-form/repair-form';
+import {MaintenanceForm} from './pages/expenselist/maintenance-form/maintenance-form';
+import {OtherForm} from './pages/expenselist/other-form/other-form';
+import {TaxForm} from './pages/expenselist/tax-form/tax-form';
+import {TuningForm} from './pages/expenselist/tuning-form/tuning-form';
 
 const routes: Routes = [{
     path: '',
@@ -63,20 +67,40 @@ const routes: Routes = [{
         vehicle: VehicleResolve
       }
     }, {
+      path: 'maintenance-form',
+      component: MaintenanceForm,
+      outlet: 'expenseform',
+      resolve: {
+        vehicle: VehicleResolve
+      }
+    }, {
+      path: 'other-form',
+      component: OtherForm,
+      outlet: 'expenseform',
+      resolve: {
+        vehicle: VehicleResolve
+      }
+    }, {
       path: 'repair-form',
       component: RepairForm,
       outlet: 'expenseform',
       resolve: {
         vehicle: VehicleResolve
       }
-    // }, {
-    //   path: 'other-form',
-    //   component: OtherForm,
-    //   outlet: 'expenseform'
-    // }, {
-    //   path: 'tax-form',
-    //   component: TaxForm,
-    //   outlet: 'expenseform'
+    }, {
+      path: 'tax-form',
+      component: TaxForm,
+      outlet: 'expenseform',
+      resolve: {
+        vehicle: VehicleResolve
+      }
+    }, {
+      path: 'tuning-form',
+      component: TuningForm,
+      outlet: 'expenseform',
+      resolve: {
+        vehicle: VehicleResolve
+      }
     }]
 }, {
     path: 'statistics/:vehicleId',

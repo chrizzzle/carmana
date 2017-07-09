@@ -19,6 +19,7 @@ import {MaintenanceExpense} from '../../../models/expense-type/maintenance-expen
   ]
 })
 export class MaintenanceForm extends BaseForm {
+  title = 'Ausgabe für Pflege / Instandhaltung erfassen';
   constructor(
     private formBuilder : FormBuilder,
     idGenerator : IdGeneratorService,
