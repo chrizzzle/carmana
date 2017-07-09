@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content padding>
 <canvas baseChart width="400" height="400"
                 [datasets]="lineChartData"
                 [labels]="months"
@@ -8,4 +8,13 @@
                 [chartType]="lineChartType"></canvas>
 
     <p>Gesamte Ausgaben: {{totalAmount}}</p>
+
+  <div style="display: block">
+    <canvas baseChart width="400" height="400"
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
 </ion-content>

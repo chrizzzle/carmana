@@ -16,6 +16,7 @@ import {MaintenanceForm} from './pages/expenselist/maintenance-form/maintenance-
 import {OtherForm} from './pages/expenselist/other-form/other-form';
 import {TaxForm} from './pages/expenselist/tax-form/tax-form';
 import {TuningForm} from './pages/expenselist/tuning-form/tuning-form';
+import {ExpensesByVehicleResolve} from './resolvers/statistics/expenses-by-vehicle';
 
 const routes: Routes = [{
     path: '',
@@ -104,7 +105,10 @@ const routes: Routes = [{
     }]
 }, {
     path: 'statistics/:vehicleId',
-    component: StatisticsPage
+    component: StatisticsPage,
+    resolve: {
+      expenses: ExpensesByVehicleResolve
+    }
 }];
 
 export const routing = RouterModule.forRoot(routes);

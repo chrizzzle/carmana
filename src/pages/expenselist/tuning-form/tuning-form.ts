@@ -38,7 +38,7 @@ export class TuningForm extends BaseForm {
     );
 
     this.newExpenseGroup = this.formBuilder.group({
-      type: [ExpenseType.TYPE_REPAIR, Validators.required],
+      type: [ExpenseType.TYPE_TUNING, Validators.required],
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required],

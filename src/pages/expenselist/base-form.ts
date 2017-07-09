@@ -77,7 +77,7 @@ export abstract class BaseForm {
 
     this.ngRedux.dispatch(this.vehicleActions.addExpense(expense));
     this.resetForm();
-    this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['repair-form']}}]);
+    this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': null}}]);
   }
 
   createModel(formValue, id, vehicleId): Expense {

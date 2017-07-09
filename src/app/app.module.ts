@@ -30,6 +30,7 @@ import {TuningForm} from '../pages/expenselist/tuning-form/tuning-form';
 import {TaxForm} from '../pages/expenselist/tax-form/tax-form';
 import {OtherForm} from '../pages/expenselist/other-form/other-form';
 import {MaintenanceForm} from '../pages/expenselist/maintenance-form/maintenance-form';
+import {ExpensesByVehicleResolve} from '../resolvers/statistics/expenses-by-vehicle';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {MaintenanceForm} from '../pages/expenselist/maintenance-form/maintenance
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     VehicleActions,
-    VehicleResolve
+    VehicleResolve,
+    ExpensesByVehicleResolve
   ]
 })
 export class AppModule {
