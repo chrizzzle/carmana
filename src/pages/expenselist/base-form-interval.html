@@ -7,8 +7,10 @@
     </ion-item>
 
     <ion-item>
-      <ion-label floating>Kilometerstand</ion-label>
-      <ion-input type="number" formControlName="mileage"></ion-input>
+      <ion-label floating>Wiederholung</ion-label>
+      <ion-select (ionChange)="onIntervalSelectChange($event)" formControlName="interval">
+        <ion-option *ngFor="let intervalType of intervalTypes" value="{{intervalType}}">{{intervalType}}</ion-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>

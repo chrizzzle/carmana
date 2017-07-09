@@ -13,7 +13,7 @@ import {OtherExpense} from '../../../models/expense-type/other-expense';
 import {MaintenanceExpense} from '../../../models/expense-type/maintenance-expense';
 
 @Component({
-  templateUrl: 'maintenance-form.html',
+  templateUrl: '../base-form-mileage.html',
   providers: [
     DatePicker
   ]
@@ -45,7 +45,7 @@ export class MaintenanceForm extends BaseForm {
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required],
-      maintenance: ['']
+      description: ['']
     });
   }
 }

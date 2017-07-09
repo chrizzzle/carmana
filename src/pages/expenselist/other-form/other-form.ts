@@ -11,7 +11,7 @@ import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
 
 @Component({
-  templateUrl: 'other-form.html',
+  templateUrl: '../base-form-mileage.html',
   providers: [
     DatePicker
   ]
@@ -43,7 +43,7 @@ export class OtherForm extends BaseForm {
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required],
-      other: ['']
+      description: ['']
     });
   }
 }

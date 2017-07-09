@@ -9,6 +9,7 @@ import {NgRedux} from '@angular-redux/store';
 import {IAppState} from '../../store';
 import {IdGeneratorService} from '../../services/id-generator';
 import {Expense} from '../../models/expense';
+import {Interval} from '../../models/expense-type/interval';
 
 
 export abstract class BaseForm {
@@ -16,6 +17,7 @@ export abstract class BaseForm {
   addDateText: string = 'Datum hinzufügen';
   expenseDate: Date = new Date();
   vehicle: Vehicle;
+  intervalTypes: Interval;
 
   constructor(
     private datePicker: DatePicker,
@@ -28,6 +30,13 @@ export abstract class BaseForm {
   ) {
     this.addDateText = DateFormat.formatGermanDate(this.expenseDate);
     this.vehicle = this.activatedRoute.snapshot.data['vehicle'];
+    this.intervalTypes = this.getIntervalTypes();
+  }
+
+  getIntervalTypes() {
+    return Object.keys(Interval).map((key: string) => {
+      return Interval[key];
+    });
   }
 
   insertDate (date) {
@@ -86,5 +95,9 @@ export abstract class BaseForm {
       id: id,
       vehicleId: vehicleId
     };
+  }
+
+  onIntervalSelectChange(intervalType: Interval) {
+
   }
 }

@@ -1,32 +1,20 @@
 import {Component} from '@angular/core';
-import {NgRedux} from '@angular-redux/store';
-import {IAppState} from '../../store';
-import {Params, ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute} from '@angular/router';
 import {Expense} from '../../models/expense';
 import 'chart.js';
-import 'rxjs/add/operator/pluck';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/groupBy';
-import 'rxjs/observable/range';
 import {ExpenseType} from '../../models/expense-type';
 
 @Component({
   templateUrl: 'statistics.html'
 })
 export class StatisticsPage {
-  private expenseAmounts$: Observable<number[]>;
-  private expenseDates$: Observable<Date[]>;
   private expensesByVehicle: Expense[];
 
   months: Array<number>;
-  amountByMonth: Array<number>;
   totalAmount: number;
   expenseTypes: ExpenseType[];
 
   public lineChartData: Array<any> = [];
-  public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions: any = {
     responsive: true
   };
@@ -63,12 +51,8 @@ export class StatisticsPage {
   public doughnutChartData: number[] = [];
   public doughnutChartType: string = 'doughnut';
 
-  constructor(private ngRedux: NgRedux<IAppState>,
-              private activatedRoute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute) {
     this.expensesByVehicle = this.activatedRoute.snapshot.data['expenses'];
-    // this.expenseDates$ = this.pluckExpenses('date', (date : string) : Date => new Date(date));
-    // this.expenseAmounts$ = this.pluckExpenses('amount');
-    console.log(this.expensesByVehicle);
 
     this.months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     this.expenseTypes = this.getExpenseTypes();
@@ -87,10 +71,6 @@ export class StatisticsPage {
     this.totalAmount = this.expensesByVehicle.reduce((acc: number, expense: Expense) => acc + Number(expense.amount), 0);
   }
 
-  ngOnInit() {
-
-  }
-
   getSum(arr: number[]) {
     return arr.reduce((acc: number, val: number) => {
       return acc + val;
@@ -101,13 +81,6 @@ export class StatisticsPage {
     return Object.keys(ExpenseType).map((key: string) => {
       return ExpenseType[key];
     });
-  }
-
-  expensesByMonth(monthIndex: number, expenses: Expense[]): Expense[] {
-    return expenses.filter((expense: Expense) => {
-      let date = new Date(expense.date);
-      return date.getMonth() === monthIndex;
-    })
   }
 
   expensesByType(type: ExpenseType, expenses: Expense[]): number[] {
@@ -124,11 +97,4 @@ export class StatisticsPage {
     }, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     );
   }
-
-  // pluckExpenses(prop : string, transform : Function = (item) => item) : Observable<any[]> {
-  //   return this.expensesByVehicle.map((expenses : Expense[]) => expenses.reduce((acc, expense) => {
-  //       acc.push(transform(expense[prop]));
-  //       return acc;
-  //     }, []));
-  // }
 }

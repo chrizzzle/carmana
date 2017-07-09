@@ -10,9 +10,10 @@ import {IAppState} from '../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DatePicker} from '@ionic-native/date-picker';
 import {BaseForm} from '../base-form';
+import {Interval} from '../../../models/expense-type/interval';
 
 @Component({
-  templateUrl: '../base-form.html',
+  templateUrl: '../base-form-interval.html',
   providers: [
     DatePicker
   ]
@@ -42,8 +43,8 @@ export class CreditForm extends BaseForm {
     this.newExpenseGroup = this.formBuilder.group({
       type: [ExpenseType.TYPE_CREDIT, Validators.required],
       amount: ['', Validators.required],
-      mileage: [this.vehicle.mileage],
-      date: [this.expenseDate, Validators.required]
+      date: [this.expenseDate, Validators.required],
+      interval: [Interval.TYPE_NEVER]
     });
   }
 }

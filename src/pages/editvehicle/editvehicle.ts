@@ -12,7 +12,8 @@ import {Camera} from '@ionic-native/camera';
 @Component({
     templateUrl: './editvehicle.html',
     providers: [
-        IdGeneratorService
+        IdGeneratorService,
+        Camera
     ]
 })
 export class EditVehiclePage {

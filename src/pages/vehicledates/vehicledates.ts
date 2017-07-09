@@ -15,7 +15,8 @@ import {DatePicker} from '@ionic-native/date-picker';
     templateUrl: 'vehicledates.html',
     providers: [
         IdGeneratorService,
-        DateFormat
+        DateFormat,
+        DatePicker
     ]
 })
 export class VehicleDatesPage {
