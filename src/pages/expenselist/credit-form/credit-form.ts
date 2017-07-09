@@ -7,7 +7,7 @@ import {ExpenseType} from '../../../models/expense-type';
 import {NgRedux} from '@angular-redux/store';
 import {VehicleActions} from '../../../app/app.actions';
 import {IAppState} from '../../../store';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DatePicker} from '@ionic-native/date-picker';
 import {BaseForm} from '../base-form';
 
@@ -26,7 +26,8 @@ export class CreditForm extends BaseForm {
     vehicleActions: VehicleActions,
     datePicker: DatePicker,
     platform : Platform,
-    activatedRoute: ActivatedRoute
+    activatedRoute: ActivatedRoute,
+    router: Router
   ) {
     super(
       datePicker,
@@ -34,7 +35,8 @@ export class CreditForm extends BaseForm {
       activatedRoute,
       ngRedux,
       vehicleActions,
-      idGenerator
+      idGenerator,
+      router
     );
 
     this.newExpenseGroup = this.formBuilder.group({

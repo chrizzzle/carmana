@@ -26,6 +26,10 @@ import {FuelForm} from '../pages/expenselist/fuel-form/fuel-form';
 import {InsuranceForm} from '../pages/expenselist/insurance-form/insurance-form';
 import {LeasingForm} from '../pages/expenselist/leasing-form/leasing-form';
 import {RepairForm} from '../pages/expenselist/repair-form/repair-form';
+import {TuningForm} from '../pages/expenselist/tuning-form/tuning-form';
+import {TaxForm} from '../pages/expenselist/tax-form/tax-form';
+import {OtherForm} from '../pages/expenselist/other-form/other-form';
+import {MaintenanceForm} from '../pages/expenselist/maintenance-form/maintenance-form';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,11 @@ import {RepairForm} from '../pages/expenselist/repair-form/repair-form';
     FuelForm,
     InsuranceForm,
     LeasingForm,
-    RepairForm
+    MaintenanceForm,
+    OtherForm,
+    RepairForm,
+    TaxForm,
+    TuningForm
   ],
   imports: [
     BrowserModule,

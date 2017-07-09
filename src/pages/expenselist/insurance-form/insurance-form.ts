@@ -6,7 +6,7 @@ import {IdGeneratorService} from '../../../services/id-generator';
 import {NgRedux} from '@angular-redux/store';
 import {VehicleActions} from '../../../app/app.actions';
 import {IAppState} from '../../../store';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
 import {InsuranceExpense} from '../../../models/expense-type/insurance-expense';
@@ -24,7 +24,8 @@ export class InsuranceForm extends BaseForm {
     vehicleActions: VehicleActions,
     datePicker: DatePicker,
     platform : Platform,
-    activatedRoute: ActivatedRoute
+    activatedRoute: ActivatedRoute,
+    router: Router
   ) {
     super(
       datePicker,
@@ -32,7 +33,8 @@ export class InsuranceForm extends BaseForm {
       activatedRoute,
       ngRedux,
       vehicleActions,
-      idGenerator
+      idGenerator,
+      router
     );
 
     this.newExpenseGroup = this.formBuilder.group({

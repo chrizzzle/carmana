@@ -1,7 +1,7 @@
 import {DatePicker} from '@ionic-native/date-picker';
 import {DateFormat} from '../../services/date-format';
 import {Platform} from 'ionic-angular';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Vehicle} from '../../models/vehicle';
 import {FormGroup} from '@angular/forms';
 import {VehicleActions} from '../../app/app.actions';
@@ -24,6 +24,7 @@ export abstract class BaseForm {
     private ngRedux : NgRedux<IAppState>,
     private vehicleActions: VehicleActions,
     private idGenerator : IdGeneratorService,
+    private router: Router
   ) {
     this.addDateText = DateFormat.formatGermanDate(this.expenseDate);
     this.vehicle = this.activatedRoute.snapshot.data['vehicle'];
@@ -76,6 +77,7 @@ export abstract class BaseForm {
 
     this.ngRedux.dispatch(this.vehicleActions.addExpense(expense));
     this.resetForm();
+    this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['repair-form']}}]);
   }
 
   createModel(formValue, id, vehicleId): Expense {

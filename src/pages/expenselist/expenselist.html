@@ -7,7 +7,6 @@
 
 <div *ngIf="showExpenseEdit">
   <ion-item padding-bottom>
-    <p>Bitte wählen Sie den Typ der Ausgabe aus</p>
     <ion-label floating>Ausgabentyp</ion-label>
     <ion-select (ionChange)="onExpenseFormSelectChange($event)">
       <ion-option *ngFor="let expenseType of expenseTypes" value="{{expenseType}}">{{expenseType}}</ion-option>

@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
 import {VehicleActions} from '../../../app/app.actions';
 import {NgRedux} from '@angular-redux/store';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IAppState} from '../../../store';
 import {DatePicker} from '@ionic-native/date-picker';
 import {Platform} from 'ionic-angular';
@@ -27,7 +27,8 @@ export class MaintenanceForm extends BaseForm {
     vehicleActions: VehicleActions,
     datePicker: DatePicker,
     platform : Platform,
-    activatedRoute: ActivatedRoute
+    activatedRoute: ActivatedRoute,
+    router: Router
   ) {
     super(
       datePicker,
@@ -35,7 +36,8 @@ export class MaintenanceForm extends BaseForm {
       activatedRoute,
       ngRedux,
       vehicleActions,
-      idGenerator
+      idGenerator,
+      router
     );
 
     this.newExpenseGroup = this.formBuilder.group({
