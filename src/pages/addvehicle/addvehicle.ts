@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { Vehicle } from '../../models/vehicle';
-import { NgRedux } from '@angular-redux/store'; 
+import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../store';
 import { VehicleActions } from '../../app/app.actions';
 import { Router } from '@angular/router';
 import { IdGeneratorService } from '../../services/id-generator';
-import { Platform } from 'ionic-angular';
 
 @Component({
     templateUrl: './addvehicle.html',
@@ -23,8 +22,7 @@ export class AddVehiclePage {
         private ngRedux : NgRedux<IAppState>,
         private vehicleActions: VehicleActions,
         private router: Router,
-        private idGeneratorService: IdGeneratorService,
-        private platform : Platform
+        private idGeneratorService: IdGeneratorService
     ) {
         this.vehicleSwitch = 'data';
     }

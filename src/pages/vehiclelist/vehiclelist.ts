@@ -17,7 +17,7 @@ import { AlertController } from 'ionic-angular';
   templateUrl: 'vehiclelist.html'
 })
 export class VehicleListPage {
-  readonly vehicles$: Observable<Vehicle>
+  readonly vehicles$: Observable<Vehicle>;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,

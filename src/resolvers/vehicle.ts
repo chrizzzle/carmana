@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import {Vehicle} from '../models/vehicle';
-import {NgRedux} from '@angular-redux/store';
-import {IAppState} from '../store';
-import {Observable} from 'rxjs';
+import { Vehicle } from '../models/vehicle';
+import { NgRedux } from '@angular-redux/store';
+import { IAppState } from '../store';
+import { Observable } from 'rxjs';
 
 import 'rxjs/add/operator/find';
 import 'rxjs/add/operator/map';

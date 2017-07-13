@@ -9,7 +9,7 @@ import { Platform } from 'ionic-angular';
 import { ActivatedRoute, Params} from '@angular/router';
 import { DateFormat } from '../../services/date-format';
 import { IdGeneratorService } from '../../services/id-generator';
-import {DatePicker} from '@ionic-native/date-picker';
+import { DatePicker } from '@ionic-native/date-picker';
 
 @Component({
     templateUrl: 'vehicledates.html',

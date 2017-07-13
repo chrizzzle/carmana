@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {BaseForm} from '../base-form';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
 import {VehicleActions} from '../../../app/app.actions';
 import {NgRedux} from '@angular-redux/store';

@@ -6,17 +6,17 @@ import { VehicleListPage } from './pages/vehiclelist/vehiclelist';
 import { VehicleDatesPage } from './pages/vehicledates/vehicledates';
 import { ExpenseListPage } from './pages/expenselist/expenselist';
 import { StatisticsPage } from './pages/statistics/statistics';
-import {CreditForm} from './pages/expenselist/credit-form/credit-form';
-import {VehicleResolve} from './resolvers/vehicle';
-import {FuelForm} from './pages/expenselist/fuel-form/fuel-form';
-import {InsuranceForm} from './pages/expenselist/insurance-form/insurance-form';
-import {LeasingForm} from './pages/expenselist/leasing-form/leasing-form';
-import {RepairForm} from './pages/expenselist/repair-form/repair-form';
-import {MaintenanceForm} from './pages/expenselist/maintenance-form/maintenance-form';
-import {OtherForm} from './pages/expenselist/other-form/other-form';
-import {TaxForm} from './pages/expenselist/tax-form/tax-form';
-import {TuningForm} from './pages/expenselist/tuning-form/tuning-form';
-import {ExpensesByVehicleResolve} from './resolvers/statistics/expenses-by-vehicle';
+import { CreditForm } from './pages/expenselist/credit-form/credit-form';
+import { VehicleResolve } from './resolvers/vehicle';
+import { FuelForm } from './pages/expenselist/fuel-form/fuel-form';
+import { InsuranceForm } from './pages/expenselist/insurance-form/insurance-form';
+import { LeasingForm } from './pages/expenselist/leasing-form/leasing-form';
+import { RepairForm } from './pages/expenselist/repair-form/repair-form';
+import { MaintenanceForm } from './pages/expenselist/maintenance-form/maintenance-form';
+import { OtherForm } from './pages/expenselist/other-form/other-form';
+import { TaxForm } from './pages/expenselist/tax-form/tax-form';
+import { TuningForm } from './pages/expenselist/tuning-form/tuning-form';
+import { ExpensesByVehicleResolve } from './resolvers/statistics/expenses-by-vehicle';
 
 const routes: Routes = [{
     path: '',

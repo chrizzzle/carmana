@@ -1,4 +1,19 @@
 <ion-content padding>
+  <ion-item padding-bottom>
+    <ion-label floating>Jahr</ion-label>
+    <ion-select (ionChange)="onYearSelectChange($event)">
+      <ion-option *ngFor="let year of years" value="{{year}}">{{year}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item padding-bottom>
+    <ion-label floating>Kategorie</ion-label>
+    <ion-select (ionChange)="onExpenseTypeSelectChange($event)">
+      <ion-option value="Alle">Alle</ion-option>
+      <ion-option *ngFor="let expenseType of expenseTypes" value="{{expenseType}}">{{expenseType}}</ion-option>
+    </ion-select>
+  </ion-item>
+
   <canvas baseChart width="400" height="400"
                   [datasets]="lineChartData"
                   [labels]="months"

@@ -9,8 +9,6 @@ import {IAppState} from '../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
-import {InsuranceExpense} from '../../../models/expense-type/insurance-expense';
-import {LeasingExpense} from '../../../models/expense-type/leasing-expense';
 import {Interval} from '../../../models/expense-type/interval';
 
 @Component({

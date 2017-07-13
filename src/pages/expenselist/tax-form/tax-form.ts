@@ -1,7 +1,7 @@
 import {BaseForm} from '../base-form';
 import {DatePicker} from '@ionic-native/date-picker';
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
 import {NgRedux} from '@angular-redux/store';
 import {VehicleActions} from '../../../app/app.actions';
@@ -9,8 +9,6 @@ import {IAppState} from '../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
-import {InsuranceExpense} from '../../../models/expense-type/insurance-expense';
-import {LeasingExpense} from '../../../models/expense-type/leasing-expense';
 import {Interval} from '../../../models/expense-type/interval';
 
 @Component({

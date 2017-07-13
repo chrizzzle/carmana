@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Vehicle } from '../../models/vehicle';
 import { VehicleImage } from '../../models/vehicleimage';
-import { NgRedux } from '@angular-redux/store'; 
+import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../store';
 import { VehicleActions } from '../../app/app.actions';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -16,7 +16,6 @@ export class ViewVehiclePage {
 
     constructor(
         private ngRedux: NgRedux<IAppState>,
-        private vehicleActions: VehicleActions,
         private router: Router,
         private route: ActivatedRoute
     ) {

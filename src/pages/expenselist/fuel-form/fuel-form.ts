@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {BaseForm} from '../base-form';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
 import {VehicleActions} from '../../../app/app.actions';
 import {NgRedux} from '@angular-redux/store';
@@ -9,7 +9,6 @@ import {IAppState} from '../../../store';
 import {DatePicker} from '@ionic-native/date-picker';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
-import {FuelExpense} from '../../../models/expense-type/fuel-expense';
 
 @Component({
   templateUrl: 'fuel-form.html',

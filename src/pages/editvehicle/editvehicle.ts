@@ -7,7 +7,7 @@ import { IAppState } from '../../store';
 import { VehicleActions } from '../../app/app.actions';
 import { Platform } from 'ionic-angular';
 import { IdGeneratorService } from '../../services/id-generator';
-import {Camera} from '@ionic-native/camera';
+import { Camera } from '@ionic-native/camera';
 
 @Component({
     templateUrl: './editvehicle.html',
