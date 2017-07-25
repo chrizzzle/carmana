@@ -1,28 +1,54 @@
-<ion-item>
-    <button ion-button (tap)="onExpenseAddTap()">
-        <ion-icon item-left name="add"></ion-icon>
-        Ausgabe erstellen
+<ion-content>
+  <div *ngIf="showExpenseEdit">
+    <ion-item padding-bottom>
+      <ion-label floating>Ausgabentyp</ion-label>
+      <ion-select (ionChange)="onExpenseFormSelectChange($event)">
+        <ion-option *ngFor="let expenseType of expenseTypes" value="{{expenseType}}">{{expenseType}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <router-outlet name="expenseform"></router-outlet>
+
+
+  <div padding>
+    <ion-segment [(ngModel)]="expenseSwitch">
+      <ion-segment-button value="past">
+        Vergangene
+      </ion-segment-button>
+      <ion-segment-button value="future">
+        Kommende
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="expenseSwitch">
+    <ion-list *ngSwitchCase="'past'">
+      <ion-item *ngFor="let expense of expensesPast$ | async">
+        <h2>{{expense.type}}: {{expense.amount}}€</h2>
+        <h3>{{formatGermanDate(expense.date)}}</h3>
+        <p>{{expense.interval || expense.description || ''}}</p>
+        <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'future'">
+      <ion-item *ngFor="let expense of expensesFuture$ | async">
+        <h2>{{expense.type}}: {{expense.amount}}€</h2>
+        <h3>{{formatGermanDate(expense.date)}}</h3>
+        <p>{{expense.interval || expense.description || ''}}</p>
+        <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-fab bottom right>
+    <button ion-fab mini (click)="onExpenseAddTap()">
+      <ion-icon name="add"></ion-icon>
     </button>
-</ion-item>
-
-<div *ngIf="showExpenseEdit">
-  <ion-item padding-bottom>
-    <ion-label floating>Ausgabentyp</ion-label>
-    <ion-select (ionChange)="onExpenseFormSelectChange($event)">
-      <ion-option *ngFor="let expenseType of expenseTypes" value="{{expenseType}}">{{expenseType}}</ion-option>
-    </ion-select>
-  </ion-item>
-</div>
-
-<router-outlet name="expenseform"></router-outlet>
-
-<ion-list>
-  <ion-item *ngFor="let expense of expenses$ | async">
-    <h2>{{expense.type}}: {{expense.amount}}€</h2>
-    <h3>{{formatGermanDate(expense.date)}}</h3>
-    <p>{{expense.interval || expense.description || ''}}</p>
-    <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)">
-      <ion-icon name="close"></ion-icon>
-    </button>
-  </ion-item>
-</ion-list>
+  </ion-fab>
+</ion-content>

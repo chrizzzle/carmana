@@ -2,35 +2,56 @@
   <ion-item padding-bottom>
     <ion-label floating>Jahr</ion-label>
     <ion-select (ionChange)="onYearSelectChange($event)">
-      <ion-option *ngFor="let year of years" value="{{year}}">{{year}}</ion-option>
+      <ion-option
+        *ngFor="let year of years; let i = index;"
+        value="{{year}}"
+        [selected]="i === 0">{{year}}</ion-option>
     </ion-select>
   </ion-item>
 
   <ion-item padding-bottom>
-    <ion-label floating>Kategorie</ion-label>
-    <ion-select (ionChange)="onExpenseTypeSelectChange($event)">
-      <ion-option value="Alle">Alle</ion-option>
-      <ion-option *ngFor="let expenseType of expenseTypes" value="{{expenseType}}">{{expenseType}}</ion-option>
+    <ion-label floating>Diagramm</ion-label>
+    <ion-select (ionChange)="onGraphTypeSelectChange($event)">
+      <ion-option value="line" [selected]="true">Jahresverlauf (Linie)</ion-option>
+      <ion-option value="doughnut">Anteilig</ion-option>
     </ion-select>
   </ion-item>
 
-  <canvas baseChart width="400" height="400"
-                  [datasets]="lineChartData"
-                  [labels]="months"
-                  [options]="lineChartOptions"
-                  [legend]="lineChartLegend"
-                  [chartType]="lineChartType">
 
-  </canvas>
+  <div [ngSwitch]="graphType">
+    <template [ngSwitchCase]="'line'">
+      <ion-item padding-bottom>
+        <ion-label floating>Kategorie</ion-label>
+        <ion-select (ionChange)="onExpenseTypeSelectChange($event)">
+          <ion-option
+            value="Alle"
+            [selected]="true">Alle</ion-option>
 
-    <p>Gesamte Ausgaben: {{totalAmount}}</p>
+          <ion-option
+            *ngFor="let expenseType of expenseTypes; let i = index;"
+            value="{{expenseType}}">{{expenseType}}</ion-option>
+        </ion-select>
+      </ion-item>
 
-  <div style="display: block">
-    <canvas baseChart width="400" height="400"
-            [data]="doughnutChartData"
-            [labels]="doughnutChartLabels"
-            [chartType]="doughnutChartType">
+      <canvas baseChart width="400" height="400"
+              [datasets]="lineChartData"
+              [labels]="months"
+              [options]="lineChartOptions"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType">
+      </canvas>
 
-    </canvas>
+      <p>Gesamte Ausgaben: {{totalAmount}} €</p>
+    </template>
+    <template [ngSwitchCase]="'doughnut'">
+      <div style="display: block">
+        <canvas baseChart width="400" height="400"
+                [data]="doughnutChartData"
+                [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType">
+        </canvas>
+        <p>Gesamte Ausgaben: {{totalAmount}} €</p>
+      </div>
+    </template>
   </div>
 </ion-content>

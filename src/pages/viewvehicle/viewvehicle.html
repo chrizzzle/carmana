@@ -1,55 +1,45 @@
 <ion-content>
   <ion-card>
     <div padding>
-      <img *ngIf="vehicleImage" src="{{vehicleImage.url}}" width="{{vehicleImage.width}}" height="{{vehicleImage.height}}" />
+      <img *ngIf="vehicleImage" src="{{vehicleImage.url}}" width="{{vehicleImage.width}}"
+           height="{{vehicleImage.height}}"/>
     </div>
     <ion-card-content>
       <ion-card-title>
         {{vehicle.make}} {{vehicle.model}}
       </ion-card-title>
 
-      <div padding>
-          <ion-segment [(ngModel)]="vehicleSwitch">
-              <ion-segment-button value="data">
-                  Daten
-              </ion-segment-button>
-              <ion-segment-button value="values">
-                  Werte
-              </ion-segment-button>
-          </ion-segment>
-      </div>
+      <ion-card-title>
+        <h2>Daten</h2>
+      </ion-card-title>
+      <ion-list>
+        <ion-item>
+          Baujahr: {{vehicle.builddate}}
+        </ion-item>
+        <ion-item>
+          Kilometerstand: {{vehicle.mileage}}
+        </ion-item>
+        <ion-item>
+          Verbrauch pro 100km: {{vehicle.consumption}}
+        </ion-item>
+        <ion-item>
+          Kraftstoffart: {{vehicle.fuelType}}
+        </ion-item>
+        <ion-item>
+          PS: {{vehicle.power}}
+        </ion-item>
+        <ion-item>
+          VIN: {{vehicle.vin}}
+        </ion-item>
+      </ion-list>
 
-      <div [ngSwitch]="vehicleSwitch">
-        <div *ngSwitchCase="'data'">
-          <ion-card-title>
-            <h2>Daten</h2>
-          </ion-card-title>
-          <ion-list>
-            <ion-item>
-              Baujahr: {{vehicle.builddate}}
-            </ion-item>
-            <ion-item>
-              Verbrauch pro 100km: {{vehicle.consumption}}
-            </ion-item>
-          </ion-list>
-        </div>
 
-        <div *ngSwitchCase="'values'">
-          <ion-card-title>
-            <h2>Werte</h2>
-          </ion-card-title>
-          <ion-list>
-            <ion-item>
-              Kilometerstand: {{vehicle.mileage}}
-            </ion-item>
-          </ion-list>
-        </div>
-      </div>
-    
     </ion-card-content>
   </ion-card>
 
- <ion-fab right bottom>
-     <button ion-fab mini (tap)="onVehicleEditTap()"><ion-icon name="create"></ion-icon></button>
- </ion-fab>
+  <ion-fab right bottom>
+    <button ion-fab mini (tap)="onVehicleEditTap()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

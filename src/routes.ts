@@ -20,25 +20,32 @@ import { ExpensesByVehicleResolve } from './resolvers/statistics/expenses-by-veh
 
 const routes: Routes = [{
     path: '',
-    component: VehicleListPage
+    component: VehicleListPage,
+    data: { title: 'CarMana' }
 }, {
     path: 'addvehicle',
-    component: AddVehiclePage
+    component: AddVehiclePage,
+    data: { title: 'Fahrzeug anlegen' }
 }, {
     path: 'viewvehicle/:id',
-    component: ViewVehiclePage
+    component: ViewVehiclePage,
+    data: { title: 'Fahrzeug' }
 }, {
     path: 'vehiclelist',
-    component: VehicleListPage
+    component: VehicleListPage,
+    data: { title: 'Fahrzeuge' }
 }, {
     path: 'editvehicle/:id',
-    component: EditVehiclePage
+    component: EditVehiclePage,
+  data: { title: 'Fahrzeug editieren' }
 }, {
     path: 'vehicledates/:vehicleId',
-    component: VehicleDatesPage
+    component: VehicleDatesPage,
+    data: { title: 'Termine' }
 }, {
     path: 'expenselist/:vehicleId',
     component: ExpenseListPage,
+    data: { title: 'Ausgaben' },
     children: [{
       path: 'credit-form',
       component: CreditForm,
@@ -106,6 +113,7 @@ const routes: Routes = [{
 }, {
     path: 'statistics/:vehicleId',
     component: StatisticsPage,
+    data: { title: 'Statistiken' },
     resolve: {
       expenses: ExpensesByVehicleResolve
     }

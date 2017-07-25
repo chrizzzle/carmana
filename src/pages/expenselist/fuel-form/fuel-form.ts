@@ -9,6 +9,7 @@ import {IAppState} from '../../../store';
 import {DatePicker} from '@ionic-native/date-picker';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
+import {Interval} from '../../../models/expense-type/interval';
 
 @Component({
   templateUrl: 'fuel-form.html',
@@ -43,7 +44,8 @@ export class FuelForm extends BaseForm {
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required],
-      litres: [0]
+      litres: [0],
+      interval: [Interval.TYPE_NEVER]
     });
   }
 }

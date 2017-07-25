@@ -1,4 +1,5 @@
 import {ExpenseType} from "./expense-type";
+import {Interval} from './expense-type/interval';
 
 export class Expense {
     id: string;
@@ -6,4 +7,5 @@ export class Expense {
     date: Date;
     amount: number;
     vehicleId: string;
+    interval: Interval;
 }

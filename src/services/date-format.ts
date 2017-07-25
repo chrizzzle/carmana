@@ -8,7 +8,7 @@ export class DateFormat {
         }
 
         const day = DateFormat.leftPad(date.getDate());
-        const month = DateFormat.leftPad(date.getMonth());
+        const month = DateFormat.leftPad(date.getMonth()+1);
         const year = date.getFullYear();
 
         return `${day}.${month}.${year}`;

@@ -84,9 +84,43 @@ export abstract class BaseForm {
 
     let expense = this.createModel(formValue, getIdFn(), vehicleId);
 
-    this.ngRedux.dispatch(this.vehicleActions.addExpense(expense));
+    this.dispatchExpense(expense);
     this.resetForm();
     this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': null}}]);
+  }
+
+  dispatchExpense(expense: Expense) {
+    let getIdFn = this.idGenerator.getId.bind(this);
+    let date = expense.date;
+    let month = date.getMonth();
+    let year = date.getFullYear();
+
+    switch (expense.interval) {
+      case Interval.TYPE_NEVER:
+        this.ngRedux.dispatch(this.vehicleActions.addExpense(expense));
+        return;
+
+      case Interval.TYPE_MONTHLY:
+        for (let i = month; i < 12; i++) {
+          let newExpense = Object.assign({}, expense, {
+            id: getIdFn(),
+            date: new Date(date.getFullYear(), i, date.getDate())
+          });
+          this.ngRedux.dispatch(this.vehicleActions.addExpense(newExpense));
+        }
+        return;
+
+      case Interval.TYPE_YEARLY:
+        for (let i = year; i < year+10; i++) {
+          let newExpense = Object.assign({}, expense, {
+            id: getIdFn(),
+            date: new Date(i, date.getMonth(), date.getDate())
+          });
+          this.ngRedux.dispatch(this.vehicleActions.addExpense(newExpense));
+        }
+        return;
+    }
+
   }
 
   createModel(formValue, id, vehicleId): Expense {

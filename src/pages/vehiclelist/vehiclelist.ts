@@ -10,8 +10,9 @@ import { IAppState} from '../../store';
 import { VehicleActions } from '../../app/app.actions';
 
 import { Observable } from 'rxjs/Observable';
-import { ActionSheetController } from 'ionic-angular';
+import {ActionSheetController, Alert} from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import {Expense} from '../../models/expense';
 
 @Component({
   templateUrl: 'vehiclelist.html'
@@ -45,8 +46,17 @@ export class VehicleListPage {
       .getState().vehicleDates
       .filter((vehicleDate : VehicleDate) : boolean => vehicleDate.vehicleId === vehicle.id);
   }
+  getVehicleStats(vehicle: Vehicle) : Expense[] {
+    return this.ngRedux
+      .getState().expenseList
+      .filter((expense : Expense) : boolean => expense.vehicleId === vehicle.id);
+  }
   hasVehicleDates(vehicle : Vehicle) : boolean {
     return this.getVehicleDates(vehicle).length > 0;
+  }
+
+  hasVehicleStats(vehicle : Vehicle) {
+    return this.getVehicleStats(vehicle).length > 0;
   }
 
   hasVehicleDateToday(vehicle : Vehicle) : boolean {
@@ -100,16 +110,26 @@ export class VehicleListPage {
 
   removeVehiclePrompt(vehicle : Vehicle) : void {
     const removeVehicle = this.removeVehicle.bind(this);
-    const prompt = this.alertCtrl.create({
+    const prompt: Alert = this.alertCtrl.create({
       title: 'Löschen',
       message: `Möchten Sie das Fahrzeug ${vehicle.make} ${vehicle.model} wirklich löschen?`,
       buttons: [{
-        text: 'Nein'
+        role: 'cancel',
+        text: 'Nein',
+        handler: data => {
+          prompt.dismiss();
+          return false;
+        }
       }, {
         text: 'Ja',
-        handler: data => removeVehicle(vehicle)
+        handler: data => {
+          removeVehicle(vehicle);
+          prompt.dismiss();
+          return false;
+        }
       }]
     });
+
 
     prompt.present();
   }
@@ -136,10 +156,6 @@ export class VehicleListPage {
 
   onVehicleStatsTap(event : Event, vehicle : Vehicle) : void {
     this.router.navigate(['/statistics', vehicle.id]);
-  }
-
-  hasVehicleStats(vehicle : Vehicle) {
-    return true;
   }
 
   viewStatisticsFn(vehicle : Vehicle) {

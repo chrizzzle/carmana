@@ -1,36 +1,62 @@
-<ion-item>
-    <button ion-button (tap)="onDateAddTap()">
-        <ion-icon item-left name="add"></ion-icon>
-        Termin erstellen
-    </button>
-</ion-item>
-
-<div *ngIf="showDateEdit">
+<ion-content>
+  <div *ngIf="showDateEdit">
     <ion-list>
-        <ion-item>
-            <ion-label floating>Aktion</ion-label>
-            <ion-input type="text" [(ngModel)]="vehicleDate.action"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label floating>Aktion</ion-label>
+        <ion-input type="text" [(ngModel)]="vehicleDate.action"></ion-input>
+      </ion-item>
 
-        <ion-item>
-            
-            <ion-label>{{addDateText}}</ion-label>
-            <button ion-button icon-only item-right clear (tap)="onNewDatePickerTap()">
-                <ion-icon name="calendar"></ion-icon>
-            </button>
+      <ion-item>
 
-            
-        </ion-item>
+        <ion-label>{{addDateText}}</ion-label>
+        <button ion-button icon-only item-right clear (tap)="onNewDatePickerTap()">
+          <ion-icon name="calendar"></ion-icon>
+        </button>
 
-        <ion-item>
-            <button ion-button small (tap)="onNewDateTap()">Termin hinzufügen</button>
-        </ion-item>
+
+      </ion-item>
+
+      <ion-item>
+        <button ion-button small (tap)="onNewDateTap()">Termin hinzufügen</button>
+      </ion-item>
     </ion-list>
-</div>
+  </div>
 
-<ion-list>
-  <ion-item *ngFor="let vehicleDate of vehicleDates$ | async">
-    {{formatGermanDate(vehicleDate.date)}} {{vehicleDate.action}}
-    <button ion-button item-right icon-only color="danger" clear (tap)="onDateDeleteTap(vehicleDate)"><ion-icon name="close"></ion-icon></button>
-  </ion-item>
-</ion-list>
+
+  <div padding>
+    <ion-segment [(ngModel)]="dateSwitch">
+      <ion-segment-button value="past">
+        Vergangene
+      </ion-segment-button>
+      <ion-segment-button value="future">
+        Kommende
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="dateSwitch">
+    <ion-list *ngSwitchCase="'past'">
+      <ion-item *ngFor="let vehicleDate of vehicleDatesPast$ | async">
+        {{formatGermanDate(vehicleDate.date)}} {{vehicleDate.action}}
+        <button ion-button item-right icon-only color="danger" clear (tap)="onDateDeleteTap(vehicleDate)">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'future'">
+      <ion-item *ngFor="let vehicleDate of vehicleDatesFuture$ | async">
+        {{formatGermanDate(vehicleDate.date)}} {{vehicleDate.action}}
+        <button ion-button item-right icon-only color="danger" clear (tap)="onDateDeleteTap(vehicleDate)">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-fab bottom right>
+    <button ion-fab mini (click)="onDateAddTap()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

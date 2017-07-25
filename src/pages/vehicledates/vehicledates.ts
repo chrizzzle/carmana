@@ -21,11 +21,14 @@ import { DatePicker } from '@ionic-native/date-picker';
 })
 export class VehicleDatesPage {
     vehicleDates$ : Observable<VehicleDate[]>;
+    vehicleDatesPast$ : Observable<VehicleDate[]>;
+    vehicleDatesFuture$ : Observable<VehicleDate[]>;
     vehicleDate : VehicleDate;
     showDateEdit : boolean = false;
     private vehicle : Vehicle;
     private title : string;
     addDateText: string = 'Datum wählen';
+    dateSwitch: string = 'past';
 
     public constructor(
         private ngRedux : NgRedux<IAppState>,
@@ -35,31 +38,42 @@ export class VehicleDatesPage {
         private platform : Platform,
         private datePicker: DatePicker
     ) {
+      let currentDate = new Date();
 
-    }
+      this.vehicleDates$ = this.ngRedux.select('vehicleDates')
+        .withLatestFrom(this.route.params, ( dates : VehicleDate[], params : Params) => dates
+          .filter((date : VehicleDate) => {
+            return date.vehicleId === params['vehicleId'];
+          })
+        );
 
-    ngOnInit() {
-        this.route.params
-            .switchMap((params : Params) => this.ngRedux
-                .select(state => state.vehicles
-                    .find((vehicle : Vehicle) => vehicle.id === params['vehicleId'])
-                )
-            )
-            .subscribe((vehicle : Vehicle) => {
-                this.vehicle = vehicle ? Object.assign({}, vehicle) : null;
-                this.title = `${this.vehicle.make} ${this.vehicle.model}`;
+      this.vehicleDatesPast$ = this.vehicleDates$.map((vehicleDates: VehicleDate[]) => {
+        return vehicleDates.filter((vehicleDate: VehicleDate) => new Date(vehicleDate.date) <= currentDate)
+          .sort((vehicleDate1: VehicleDate, vehicleDate2: VehicleDate) => {
+            if (vehicleDate1.date > vehicleDate2.date) return -1;
+            if (vehicleDate1.date === vehicleDate2.date) return 0;
+            if (vehicleDate1.date < vehicleDate2.date) return 1;
+          })
+      });
 
-                this.vehicleDates$ = this.ngRedux
-                    .select('vehicleDates')
-                    .map((vehicleDates : VehicleDate[]) => vehicleDates
-                        .filter((vehicleDate: VehicleDate) => vehicleDate.vehicleId === this.vehicle.id)
-                        .sort((vehicleDate1 : VehicleDate, vehicleDate2 : VehicleDate) => {
-                            if (vehicleDate1.date > vehicleDate2.date) return -1;
-                            if (vehicleDate1.date < vehicleDate2.date) return 1;
-                            if (vehicleDate1.date === vehicleDate2.date) return 0;
-                        })
-                    );
-            });
+      this.vehicleDatesFuture$ = this.vehicleDates$.map((vehicleDates: VehicleDate[]) => {
+        return vehicleDates.filter((vehicleDate: VehicleDate) => new Date(vehicleDate.date) > currentDate)
+          .sort((vehicleDate1: VehicleDate, vehicleDate2 : VehicleDate) => {
+            if (vehicleDate1.date < vehicleDate2.date) return -1;
+            if (vehicleDate1.date === vehicleDate2.date) return 0;
+            if (vehicleDate1.date > vehicleDate2.date) return 1;
+          })
+      });
+
+
+      this.ngRedux.select('vehicles')
+        .withLatestFrom(
+          this.route.params,
+          (vehicles : Vehicle[], params : Params) => vehicles.find(vehicle => vehicle.id === params['vehicleId'])
+        )
+        .subscribe((vehicle : Vehicle) => {
+          this.vehicle = Object.assign({}, vehicle);
+        });
     }
 
     createVehicleDate() {
@@ -75,7 +89,7 @@ export class VehicleDatesPage {
         if (this.platform.is('cordova')) {
             this.showDatePicker();
         } else {
-            this.insertDate(DateFormat.createRandomDateFuture());
+            this.insertDate(DateFormat.createRandomDatePast());
         }
     }
 
