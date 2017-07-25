@@ -50,6 +50,9 @@
         "sw-toolbox": "3.6.0",
         "zone.js": "0.8.12"
     },
+  "config" : {
+    "ionic_source_map_type" : "eval"
+  },
     "devDependencies": {
         "@ionic/app-scripts": "^1.3.12",
         "@ionic/cli-plugin-cordova": "^1.4.1",

@@ -115,21 +115,14 @@ export class VehicleListPage {
       message: `Möchten Sie das Fahrzeug ${vehicle.make} ${vehicle.model} wirklich löschen?`,
       buttons: [{
         role: 'cancel',
-        text: 'Nein',
-        handler: data => {
-          prompt.dismiss();
-          return false;
-        }
+        text: 'Nein'
       }, {
         text: 'Ja',
         handler: data => {
           removeVehicle(vehicle);
-          prompt.dismiss();
-          return false;
         }
       }]
     });
-
 
     prompt.present();
   }
@@ -177,7 +170,10 @@ export class VehicleListPage {
           text: 'Löschen',
           role: 'destructive',
           handler: () => {
-            removeVehiclFn(vehicle);
+            actionSheet.dismiss().then(() => {
+              removeVehiclFn(vehicle);
+            });
+            return false;
           }
         }, {
           text: 'Anzeigen',
