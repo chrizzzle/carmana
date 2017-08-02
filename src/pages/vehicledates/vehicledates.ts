@@ -10,7 +10,7 @@ import { ActivatedRoute, Params} from '@angular/router';
 import { DateFormat } from '../../services/date-format';
 import { IdGeneratorService } from '../../services/id-generator';
 import { DatePicker } from '@ionic-native/date-picker';
-import { LocalNotifications } from '@ionic-native/local-notifications';
+import {ILocalNotification, LocalNotifications} from '@ionic-native/local-notifications';
 
 
 @Component({
@@ -85,7 +85,8 @@ export class VehicleDatesPage {
             id: this.idGeneratorService.getId(),
             vehicleId: this.vehicle.id,
             action: null,
-            date: null
+            date: null,
+            notifiy: false
         }
     }
 
@@ -116,22 +117,35 @@ export class VehicleDatesPage {
 
     onDateDeleteTap(vehicleDate : VehicleDate) : void {
         this.dispatchDateDelete(vehicleDate);
+        this.unRegisterNotification(vehicleDate);
+    }
+
+    unRegisterNotification(vehicleDate: VehicleDate) {
+      if (this.platform.is('cordova')) {
+        this.localNotifications.clear(vehicleDate.date.getTime());
+      }
     }
 
     registerNotification(vehicleDate: VehicleDate)
     {
       if (this.platform.is('cordova')) {
-        this.localNotifications.schedule({
-          title: 'Terminerinnerung',
-          text: `Vergiss nicht deinen Termin: ${vehicleDate.action}`,
+        let notificationOptions: ILocalNotification = {
+          id: vehicleDate.date.getTime(),
+          title: `Terminerinnerung: ${vehicleDate.action}`,
+          text: `Vergiss nicht deinen Termin: "${vehicleDate.action}" 
+                 heute um ${vehicleDate.date.getHours()}:${vehicleDate.date.getMinutes()}`,
           at: vehicleDate.date.setHours(vehicleDate.date.getHours() - 1)
-        });
+        };
+
+        this.localNotifications.schedule(notificationOptions);
       }
     }
 
     onNewDateTap() : void {
         this.dispatchDateAdd(this.vehicleDate);
-        this.registerNotification(this.vehicleDate);
+        if (this.vehicleDate.notifiy) {
+          this.registerNotification(this.vehicleDate);
+        }
         this.toggleDateAdd();
     }
 

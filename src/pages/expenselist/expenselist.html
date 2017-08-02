@@ -10,55 +10,56 @@
 
   <router-outlet name="expenseform"></router-outlet>
 
+  <div *ngIf="!showExpenseEdit">
+    <div padding>
+      <ion-segment [(ngModel)]="expenseSwitch">
+        <ion-segment-button value="past">
+          Vergangene
+        </ion-segment-button>
+        <ion-segment-button value="future">
+          Kommende
+        </ion-segment-button>
+      </ion-segment>
+    </div>
 
-  <div padding>
-    <ion-segment [(ngModel)]="expenseSwitch">
-      <ion-segment-button value="past">
-        Vergangene
-      </ion-segment-button>
-      <ion-segment-button value="future">
-        Kommende
-      </ion-segment-button>
-    </ion-segment>
-  </div>
-
-  <div [ngSwitch]="expenseSwitch">
-    <ion-list *ngSwitchCase="'past'">
-      <div class="no-records-wrapper" *ngIf="(expensesPast$ | async)?.length==0">
-        <div class="no-records">
-          Keine vergangenen Ausgaben vorhanden.
+    <div [ngSwitch]="expenseSwitch">
+      <ion-list *ngSwitchCase="'past'">
+        <div class="no-records-wrapper" *ngIf="(expensesPast$ | async)?.length==0">
+          <div class="no-records">
+            Keine vergangenen Ausgaben vorhanden.
+          </div>
         </div>
-      </div>
-      <ion-item *ngFor="let expense of expensesPast$ | async">
-        <h2>{{expense.type}}: {{expense.amount}}€</h2>
-        <h3>{{formatGermanDate(expense.date)}}</h3>
-        <p>{{expense.interval || expense.description || ''}}</p>
-        <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </ion-item>
-    </ion-list>
+        <ion-item *ngFor="let expense of expensesPast$ | async">
+          <h2>{{expense.type}}: {{expense.amount}}€</h2>
+          <h3>{{formatGermanDate(expense.date)}}</h3>
+          <p>{{expense.interval || expense.description || ''}}</p>
+          <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-list>
 
-    <ion-list *ngSwitchCase="'future'">
-      <div class="no-records-wrapper" *ngIf="(expensesPast$ | async)?.length==0">
-        <div class="no-records">
-          Keine kommenden Ausgaben vorhanden. Erstellen Sie neue Ausgaben über den "+" Button.
+      <ion-list *ngSwitchCase="'future'">
+        <div class="no-records-wrapper" *ngIf="(expensesPast$ | async)?.length==0">
+          <div class="no-records">
+            Keine kommenden Ausgaben vorhanden. Erstellen Sie neue Ausgaben über den "+" Button.
+          </div>
         </div>
-      </div>
-      <ion-item *ngFor="let expense of expensesFuture$ | async">
-        <h2>{{expense.type}}: {{expense.amount}}€</h2>
-        <h3>{{formatGermanDate(expense.date)}}</h3>
-        <p>{{expense.interval || expense.description || ''}}</p>
-        <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </ion-item>
-    </ion-list>
-  </div>
+        <ion-item *ngFor="let expense of expensesFuture$ | async">
+          <h2>{{expense.type}}: {{expense.amount}}€</h2>
+          <h3>{{formatGermanDate(expense.date)}}</h3>
+          <p>{{expense.interval || expense.description || ''}}</p>
+          <button ion-button item-right icon-only color="danger" clear (tap)="onExpenseDeleteTap(expense)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-list>
+    </div>
 
-  <ion-fab bottom right>
-    <button ion-fab mini (click)="onExpenseAddTap()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
+    <ion-fab bottom right>
+      <button ion-fab mini (click)="onExpenseAddTap()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
+  </div>
 </ion-content>
