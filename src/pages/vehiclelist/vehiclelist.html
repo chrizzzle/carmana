@@ -1,4 +1,9 @@
 <ion-content>
+  <div class="no-records-wrapper" *ngIf="(vehicles$ | async)?.length==0">
+    <div class="no-records">
+      Keine Fahrzeuge vorhanden. Legen Sie neue Fahrzeuge über den "+" Button an.
+    </div>
+  </div>
   <ion-list>
     <ion-item *ngFor="let vehicle of vehicles$ | async; trackBy:getVehicleId" (click)="onVehicleBuildTap(vehicle)">
       <ion-avatar item-left>
@@ -7,11 +12,11 @@
       <h2>{{vehicle.make}} {{vehicle.model}}</h2>
       <p *ngIf="vehicle.mileage">Kilometerstand: {{vehicle.mileage}}</p>
       <button item-right icon-only ion-button clear (click)="onVehicleDateTap($event, vehicle)" *ngIf="hasVehicleDates(vehicle)">
-        <ion-icon name="calendar" [isActive]="!!hasVehicleDateToday(vehicle)"></ion-icon>
+        <ion-icon name="calendar" [isActive]="true"></ion-icon>
       </button>
 
       <button item-right icon-only ion-button clear (click)="onVehicleStatsTap($event, vehicle)" *ngIf="hasVehicleStats(vehicle)">
-        <ion-icon name="ion-stats-bars"></ion-icon>
+        <ion-icon name="pulse"></ion-icon>
       </button>
     </ion-item>
   </ion-list>

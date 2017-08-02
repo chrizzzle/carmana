@@ -3,4 +3,7 @@ export interface VehicleDate {
     action : string;
     date: Date;
     vehicleId: string;
+    notifiy: boolean;
+    calendar: boolean;
+    location: string;
 }

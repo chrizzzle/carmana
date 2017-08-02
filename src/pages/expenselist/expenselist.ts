@@ -22,9 +22,12 @@ import {ExpenseType} from "../../models/expense-type";
 export class ExpenseListPage {
     private vehicle : Vehicle;
     expenses$ : Observable<Expense[]>;
+    expensesPast$ : Observable<Expense[]>;
+    expensesFuture$ : Observable<Expense[]>;
     showExpenseEdit : Boolean = false;
     addDateText: string = 'Datum hinzufügen';
     expenseTypes: Array<any>;
+    expenseSwitch: string = 'past';
 
     public constructor(
         private ngRedux : NgRedux<IAppState>,
@@ -32,19 +35,39 @@ export class ExpenseListPage {
         private vehicleActions : VehicleActions,
         private router: Router
     ) {
-        this.expenses$ = this.ngRedux.select('expenseList')
-        .withLatestFrom(this.route.params, ( expenses : Expense[], params : Params) => expenses
-                .filter((expense : Expense) => expense.vehicleId === params['vehicleId'])
-                .sort((expense1: Expense, expense2 : Expense) => {
-                    if (expense1.date > expense2.date) return -1;
-                    if (expense1.date === expense2.date) return 0;
-                    if (expense1.date < expense2.date) return 1;
-                })
-        );
+      let currentDate = new Date();
+
+      this.expenses$ = this.ngRedux.select('expenseList')
+      .withLatestFrom(this.route.params, ( expenses : Expense[], params : Params) => expenses
+              .filter((expense : Expense) => {
+                return expense.vehicleId === params['vehicleId'];
+              })
+      );
+
+      this.expensesPast$ = this.expenses$.map((expenses: Expense[]) => {
+        return expenses.filter((expense: Expense) => new Date(expense.date) <= currentDate)
+          .sort((expense1: Expense, expense2 : Expense) => {
+            if (expense1.date > expense2.date) return -1;
+            if (expense1.date === expense2.date) return 0;
+            if (expense1.date < expense2.date) return 1;
+          })
+      });
+
+      this.expensesFuture$ = this.expenses$.map((expenses: Expense[]) => {
+        return expenses.filter((expense: Expense) => new Date(expense.date) > currentDate)
+          .sort((expense1: Expense, expense2 : Expense) => {
+          if (expense1.date < expense2.date) return -1;
+          if (expense1.date === expense2.date) return 0;
+          if (expense1.date > expense2.date) return 1;
+        })
+      });
 
       this.ngRedux.select('vehicles')
-            .withLatestFrom(this.route.params, (vehicles : Vehicle[], params : Params) => vehicles
-                    .find(vehicle => vehicle.id === params['vehicleId'])).subscribe((vehicle : Vehicle) => {
+        .withLatestFrom(
+          this.route.params,
+          (vehicles : Vehicle[], params : Params) => vehicles.find(vehicle => vehicle.id === params['vehicleId'])
+        )
+        .subscribe((vehicle : Vehicle) => {
             this.vehicle = Object.assign({}, vehicle);
         });
 
@@ -73,6 +96,8 @@ export class ExpenseListPage {
     }
 
     onExpenseFormSelectChange(expenseType) {
+        this.showExpenseEdit = false;
+
         switch (expenseType) {
           case ExpenseType.TYPE_CREDIT:
             this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['credit-form']}}]);
@@ -97,6 +122,9 @@ export class ExpenseListPage {
             return;
           case ExpenseType.TYPE_TUNING:
             this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['tuning-form']}}]);
+            return;
+          case ExpenseType.TYPE_OTHER:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['other-form']}}]);
             return;
         }
     }

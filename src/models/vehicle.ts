@@ -5,4 +5,7 @@ export interface Vehicle {
     mileage: number;
     consumption: number;
     builddate: number;
+    fuelType: string;
+    power: number;
+    vin: string;
 }

@@ -2,16 +2,23 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DateFormat {
-    static formatGermanDate(date : Date) {
+    static formatGermanDate(date: Date, time: boolean = false) {
         if (!Boolean(date)) {
             return '';
         }
 
         const day = DateFormat.leftPad(date.getDate());
-        const month = DateFormat.leftPad(date.getMonth());
+        const month = DateFormat.leftPad(date.getMonth()+1);
         const year = date.getFullYear();
 
-        return `${day}.${month}.${year}`;
+        let dateStr = `${day}.${month}.${year}`;
+        if (!time) {
+          return dateStr;
+        }
+
+        let hour = DateFormat.leftPad(date.getHours());
+        let minute = DateFormat.leftPad(date.getMinutes());
+        return `${dateStr} - ${hour}:${minute}`
     }
 
     static createRandomDate(past : Boolean = true) {

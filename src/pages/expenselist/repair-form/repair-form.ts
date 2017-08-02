@@ -9,6 +9,7 @@ import {IAppState} from '../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
+import {Interval} from '../../../models/expense-type/interval';
 
 @Component({
   templateUrl: '../base-form-mileage.html',
@@ -41,7 +42,8 @@ export class RepairForm extends BaseForm {
       amount: ['', Validators.required],
       mileage: [this.vehicle.mileage],
       date: [this.expenseDate, Validators.required],
-      description: ['']
+      description: [''],
+      interval: [Interval.TYPE_NEVER]
     });
   }
 }

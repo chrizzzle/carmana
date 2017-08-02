@@ -15,39 +15,40 @@ export class StatisticsPage {
   expenseTypes: ExpenseType[];
   expenseTypeFns;
   years: number[];
+  graphType: string;
+  currentYear: number;
 
   public lineChartData: Array<{data: number[], label: string|ExpenseType}> = [];
   public lineChartOptions: any = {
-    responsive: true
-  };
-  public lineChartColors: Array<any> = [
-    {
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    },
-    {
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-    },
-    {
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
     }
-  ];
+  };
   public lineChartLegend: boolean = true;
   public lineChartType: string = 'line';
+
+
+  public barChartLabels:string[] = ['1', '2','3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  public barChartLegend:boolean = true;
+  public barChartType: string = 'bar';
+  public barChartData: any[] = [
+  ];
+  public barChartOptions = {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero:true
+        },
+        stacked: true
+      }]
+    }
+  };
+
 
   public doughnutChartLabels: ExpenseType[] = [];
   public doughnutChartData: number[] = [];
@@ -55,25 +56,14 @@ export class StatisticsPage {
 
   constructor(private activatedRoute: ActivatedRoute) {
     this.expensesByVehicle = this.activatedRoute.snapshot.data['expenses'];
-
-    this.months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    this.months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     this.years = this.getYearsGrouped(this.expensesByVehicle);
     this.expenseTypes = this.getExpenseTypes();
-    this.expenseTypeFns = this.getExpenseTypeFns();
-    this.expenseTypeFns['Alle'] = this.allExpensesByMonth.bind(this, this.expensesByVehicle);
+    this.graphType = 'bar';
 
-    this.expenseTypes.forEach((expenseType: ExpenseType) => {
-      let amountByTypeAndMonth = this.expensesByType(expenseType, this.expensesByVehicle);
-      this.doughnutChartData.push(this.getSum(amountByTypeAndMonth));
-      this.doughnutChartLabels.push(expenseType);
-    });
-
-    this.lineChartData = [{
-      data: this.allExpensesByMonth(this.expensesByVehicle),
-      label: 'Alle'
-    }];
-
-    this.totalAmount = this.expensesByVehicle.reduce((acc: number, expense: Expense) => acc + Number(expense.amount), 0);
+    if (this.years.length > 0) {
+      this.getData(this.years[0]);
+    }
   }
 
   getSum(arr: number[]) {
@@ -97,19 +87,19 @@ export class StatisticsPage {
     }, [])
   }
 
-  getExpenseTypeFns() {
+  getExpenseTypeFns(year: number) {
     let expenseTypes = this.getExpenseTypes();
     let expenseTypeFns = {};
 
     expenseTypes.forEach((expenseType: ExpenseType) => {
-      expenseTypeFns['' + expenseType] = this.getExpenseTypeFn(expenseType);
+      expenseTypeFns['' + expenseType] = this.getExpenseTypeFn(expenseType, year);
     });
 
     return expenseTypeFns;
   }
 
-  getExpenseTypeFn(expenseType: ExpenseType) {
-    return this.expensesByType.bind(this, expenseType, this.expensesByVehicle);
+  getExpenseTypeFn(expenseType: ExpenseType, year: number) {
+    return this.expensesByType.bind(this, expenseType, this.expensesByVehicle, year);
   }
 
   getExpenseTypes(): ExpenseType[] {
@@ -118,13 +108,18 @@ export class StatisticsPage {
     });
   }
 
-  expensesByType(type: ExpenseType, expenses: Expense[]): number[] {
+  expensesByType(type: ExpenseType, expenses: Expense[], year: number): number[] {
     return expenses.reduce((acc: any, expense: Expense) => {
       if (expense.type !== type) {
         return acc;
       }
 
       let date = new Date(expense.date);
+
+      if (year !== date.getFullYear()) {
+        return acc;
+      }
+
       let index = date.getMonth();
 
       acc[index] += Number(expense.amount);
@@ -133,23 +128,15 @@ export class StatisticsPage {
     );
   }
 
-  allExpensesByMonth(expenses): number[] {
+  allExpensesByMonth(expenses: Expense[], year: number): number[] {
     return expenses.reduce((acc: any, expense: Expense) => {
         let date = new Date(expense.date);
-        let monthIndex = date.getMonth();
-        acc[monthIndex] += Number(expense.amount);
-        return acc;
-      }, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    );
-  }
 
-  expensesByMonth(monthIndex: number, expenses: Expense[]): number[] {
-    return expenses.reduce((acc: any, expense: Expense) => {
-        let date = new Date(expense.date);
-        if (monthIndex !== date.getMonth()) {
-          return;
+        if (date.getFullYear() !== year) {
+          return acc;
         }
 
+        let monthIndex = date.getMonth();
         acc[monthIndex] += Number(expense.amount);
         return acc;
       }, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -161,6 +148,77 @@ export class StatisticsPage {
       data: this.expenseTypeFns['' + expenseType](),
       label: expenseType
     }];
-    console.log(this.lineChartData);
+  }
+
+  onYearSelectChange(year) {
+    this.currentYear = year;
+    this.getData(year);
+  }
+
+  onGraphTypeSelectChange(graph) {
+    this.getData(this.currentYear || this.years[0]);
+    this.graphType = graph;
+  }
+
+  getDoughnutData(expenseTypes: ExpenseType[], fullYear: number): {data: number[], labels: string[]} {
+    let data: number[] = [];
+    let labels: string[] = [];
+    expenseTypes.forEach((expenseType: ExpenseType) => {
+      let amountByTypeAndMonth = this.expensesByType(expenseType, this.expensesByVehicle, fullYear);
+      let sum = this.getSum(amountByTypeAndMonth);
+
+      if (sum > 0) {
+        data.push(sum);
+        labels.push('' + expenseType);
+      }
+    });
+
+    return {
+      data: data,
+      labels: labels
+    };
+  }
+
+  getLineChartData(expensesByVehicle: Expense[], fullYear: number): Array<{data: number[], label: string}> {
+    return [{
+      data: this.allExpensesByMonth(expensesByVehicle, fullYear),
+      label: 'Alle'
+    }];
+  }
+
+  getBarChartData(): Array<{data: number[], label: string, stack: string}> {
+    let result = [];
+    for (let i in this.expenseTypeFns) {
+      if (this.expenseTypeFns.hasOwnProperty(i)) {
+        let fn = this.expenseTypeFns[i];
+        let sum = this.getSum(fn());
+
+        if (sum > 0) {
+          result.push({
+            data: fn(),
+            label: i,
+            stack: '1'
+          });
+        }
+      }
+    }
+
+    return result;
+  }
+
+  getData(year) {
+    let fullYear = Number(year);
+    let doughnutData = this.getDoughnutData(this.expenseTypes, fullYear);
+
+    this.doughnutChartData = doughnutData.data;
+    this.doughnutChartLabels = doughnutData.labels;
+
+    this.expenseTypeFns = this.getExpenseTypeFns(fullYear);
+    this.barChartData = this.getBarChartData();
+
+    this.expenseTypeFns['Alle'] = this.allExpensesByMonth.bind(this, this.expensesByVehicle, fullYear);
+    this.lineChartData = this.getLineChartData(this.expensesByVehicle, fullYear);
+
+    this.totalAmount = this.expensesByVehicle.reduce((acc: number, expense: Expense) => acc + Number(expense.amount), 0);
   }
 }

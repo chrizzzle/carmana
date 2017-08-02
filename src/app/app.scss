@@ -18,3 +18,14 @@
 ion-card img {
     height: auto;
 }
+
+.no-records-wrapper {
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  vertical-align: center;
+
+  .no-records {
+
+  }
+}

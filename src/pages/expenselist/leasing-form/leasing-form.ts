@@ -1,7 +1,7 @@
 import {BaseForm} from '../base-form';
 import {DatePicker} from '@ionic-native/date-picker';
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
 import {NgRedux} from '@angular-redux/store';
 import {VehicleActions} from '../../../app/app.actions';
