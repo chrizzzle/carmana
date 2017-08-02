@@ -1,4 +1,9 @@
 <ion-content>
+  <div class="no-records-wrapper" *ngIf="(vehicles$ | async)?.length==0">
+    <div class="no-records">
+      Keine Fahrzeuge vorhanden. Legen Sie neue Fahrzeuge über den "+" Button an.
+    </div>
+  </div>
   <ion-list>
     <ion-item *ngFor="let vehicle of vehicles$ | async; trackBy:getVehicleId" (click)="onVehicleBuildTap(vehicle)">
       <ion-avatar item-left>

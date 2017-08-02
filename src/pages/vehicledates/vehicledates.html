@@ -36,8 +36,13 @@
 
   <div [ngSwitch]="dateSwitch">
     <ion-list *ngSwitchCase="'past'">
+      <div class="no-records-wrapper" *ngIf="(vehicleDatesPast$ | async)?.length==0">
+        <div class="no-records">
+          Keine vergangenen Termine vorhanden.
+        </div>
+      </div>
       <ion-item *ngFor="let vehicleDate of vehicleDatesPast$ | async">
-        {{formatGermanDate(vehicleDate.date)}} {{vehicleDate.action}}
+        {{formatGermanDate(vehicleDate.date, true)}} {{vehicleDate.action}}
         <button ion-button item-right icon-only color="danger" clear (tap)="onDateDeleteTap(vehicleDate)">
           <ion-icon name="close"></ion-icon>
         </button>
@@ -45,6 +50,12 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'future'">
+      <div class="no-records-wrapper" *ngIf="(vehicleDatesPast$ | async)?.length==0">
+        <div class="no-records">
+          Keine kommenden Termine vorhanden. Legen Sie neue Termine über den "+" Button an.
+        </div>
+      </div>
+
       <ion-item *ngFor="let vehicleDate of vehicleDatesFuture$ | async">
         {{formatGermanDate(vehicleDate.date)}} {{vehicleDate.action}}
         <button ion-button item-right icon-only color="danger" clear (tap)="onDateDeleteTap(vehicleDate)">

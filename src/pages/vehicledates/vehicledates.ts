@@ -10,13 +10,16 @@ import { ActivatedRoute, Params} from '@angular/router';
 import { DateFormat } from '../../services/date-format';
 import { IdGeneratorService } from '../../services/id-generator';
 import { DatePicker } from '@ionic-native/date-picker';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 
 @Component({
     templateUrl: 'vehicledates.html',
     providers: [
         IdGeneratorService,
         DateFormat,
-        DatePicker
+        DatePicker,
+        LocalNotifications
     ]
 })
 export class VehicleDatesPage {
@@ -36,7 +39,8 @@ export class VehicleDatesPage {
         private route : ActivatedRoute,
         private idGeneratorService: IdGeneratorService,
         private platform : Platform,
-        private datePicker: DatePicker
+        private datePicker: DatePicker,
+        private localNotifications: LocalNotifications
     ) {
       let currentDate = new Date();
 
@@ -98,7 +102,7 @@ export class VehicleDatesPage {
 
         this.datePicker.show({
             date: new Date(),
-            mode: 'date',
+            mode: 'datetime',
         }).then(
             insertDateFn,
             err => console.log('Error occurred while getting date: ', err)
@@ -107,15 +111,27 @@ export class VehicleDatesPage {
 
     insertDate (date) {
         this.vehicleDate.date = date;
-        this.addDateText = DateFormat.formatGermanDate(date);
+        this.addDateText = DateFormat.formatGermanDate(date, true);
     }
 
     onDateDeleteTap(vehicleDate : VehicleDate) : void {
         this.dispatchDateDelete(vehicleDate);
     }
 
+    registerNotification(vehicleDate: VehicleDate)
+    {
+      if (this.platform.is('cordova')) {
+        this.localNotifications.schedule({
+          title: 'Terminerinnerung',
+          text: `Vergiss nicht deinen Termin: ${vehicleDate.action}`,
+          at: vehicleDate.date.setHours(vehicleDate.date.getHours() - 1)
+        });
+      }
+    }
+
     onNewDateTap() : void {
         this.dispatchDateAdd(this.vehicleDate);
+        this.registerNotification(this.vehicleDate);
         this.toggleDateAdd();
     }
 
@@ -140,10 +156,10 @@ export class VehicleDatesPage {
         }
     }
 
-    formatGermanDate(date) {
+    formatGermanDate(date, includeTime: boolean = false) {
         if (Boolean(date) && typeof(date) === 'string') {
             date = new Date(date);
         }
-        return DateFormat.formatGermanDate(date);
+        return DateFormat.formatGermanDate(date, includeTime);
     }
 }

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IdGeneratorService} from '../../../services/id-generator';
-import {CreditExpense} from '../../../models/expense-type/credit-expense';
 import {Platform} from 'ionic-angular';
 import {ExpenseType} from '../../../models/expense-type';
 import {NgRedux} from '@angular-redux/store';

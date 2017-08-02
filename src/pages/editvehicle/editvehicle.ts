@@ -92,7 +92,9 @@ export class EditVehiclePage {
       url: imageData,
       width: 300,
       height: 300,
-      vehicleId: this.vehicle.id
+      vehicleId: this.vehicle.id,
+      correctOrientation: false,
+      saveToPhotoAlbum: true
     };
 
     this.ngRedux.dispatch(this.vehicleActions.addVehicleImage(image));
@@ -101,9 +103,11 @@ export class EditVehiclePage {
   takePicture(): void {
     const dispatchImageFn = this.dispatchImageAdd.bind(this);
     this.camera.getPicture({
+      quality: 90,
+      encodingType: this.camera.EncodingType.JPEG,
       destinationType: this.camera.DestinationType.FILE_URI,
-      targetWidth: 300,
-      targetHeight: 300
+      targetWidth: 600,
+      targetHeight: 600
     })
       .then(dispatchImageFn)
       .catch(console.error);

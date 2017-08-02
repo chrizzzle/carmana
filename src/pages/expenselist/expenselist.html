@@ -24,6 +24,11 @@
 
   <div [ngSwitch]="expenseSwitch">
     <ion-list *ngSwitchCase="'past'">
+      <div class="no-records-wrapper" *ngIf="(expensesPast$ | async)?.length==0">
+        <div class="no-records">
+          Keine vergangenen Ausgaben vorhanden.
+        </div>
+      </div>
       <ion-item *ngFor="let expense of expensesPast$ | async">
         <h2>{{expense.type}}: {{expense.amount}}€</h2>
         <h3>{{formatGermanDate(expense.date)}}</h3>
@@ -35,6 +40,11 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'future'">
+      <div class="no-records-wrapper" *ngIf="(expensesPast$ | async)?.length==0">
+        <div class="no-records">
+          Keine kommenden Ausgaben vorhanden. Erstellen Sie neue Ausgaben über den "+" Button.
+        </div>
+      </div>
       <ion-item *ngFor="let expense of expensesFuture$ | async">
         <h2>{{expense.type}}: {{expense.amount}}€</h2>
         <h3>{{formatGermanDate(expense.date)}}</h3>
