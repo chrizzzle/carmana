@@ -123,6 +123,9 @@ export class ExpenseListPage {
           case ExpenseType.TYPE_TUNING:
             this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['tuning-form']}}]);
             return;
+          case ExpenseType.TYPE_OTHER:
+            this.router.navigate(['/expenselist/' + this.vehicle.id , {outlets: {'expenseform': ['other-form']}}]);
+            return;
         }
     }
 }

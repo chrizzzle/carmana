@@ -7,6 +7,11 @@
       </ion-item>
 
       <ion-item>
+        <ion-label floating>Ort</ion-label>
+        <ion-input type="text" [(ngModel)]="vehicleDate.location"></ion-input>
+      </ion-item>
+
+      <ion-item>
         <ion-label>{{addDateText}}</ion-label>
         <button ion-button icon-only item-right clear (tap)="onNewDatePickerTap()">
           <ion-icon name="calendar"></ion-icon>
@@ -16,6 +21,11 @@
       <ion-item>
         <ion-label>Erinnerung</ion-label>
         <ion-checkbox [(ngModel)]="vehicleDate.notifiy"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Kalendereintrag</ion-label>
+        <ion-checkbox [(ngModel)]="vehicleDate.calendar"></ion-checkbox>
       </ion-item>
 
       <ion-item>
@@ -59,7 +69,7 @@
         </div>
 
         <ion-item *ngFor="let vehicleDate of vehicleDatesFuture$ | async">
-          {{formatGermanDate(vehicleDate.date)}} {{vehicleDate.action}}
+          {{formatGermanDate(vehicleDate.date, true)}} {{vehicleDate.action}}
           <button ion-button item-right icon-only color="danger" clear (tap)="onDateDeleteTap(vehicleDate)">
             <ion-icon name="close"></ion-icon>
           </button>

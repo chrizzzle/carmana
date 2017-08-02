@@ -10,6 +10,7 @@ import { ActivatedRoute, Params} from '@angular/router';
 import { DateFormat } from '../../services/date-format';
 import { IdGeneratorService } from '../../services/id-generator';
 import { DatePicker } from '@ionic-native/date-picker';
+import { Calendar } from '@ionic-native/calendar';
 import {ILocalNotification, LocalNotifications} from '@ionic-native/local-notifications';
 
 
@@ -19,7 +20,8 @@ import {ILocalNotification, LocalNotifications} from '@ionic-native/local-notifi
         IdGeneratorService,
         DateFormat,
         DatePicker,
-        LocalNotifications
+        LocalNotifications,
+        Calendar
     ]
 })
 export class VehicleDatesPage {
@@ -40,7 +42,8 @@ export class VehicleDatesPage {
         private idGeneratorService: IdGeneratorService,
         private platform : Platform,
         private datePicker: DatePicker,
-        private localNotifications: LocalNotifications
+        private localNotifications: LocalNotifications,
+        private calendar: Calendar
     ) {
       let currentDate = new Date();
 
@@ -86,8 +89,10 @@ export class VehicleDatesPage {
             vehicleId: this.vehicle.id,
             action: null,
             date: null,
-            notifiy: false
-        }
+            notifiy: false,
+            calendar: false,
+            location: null
+        };
     }
 
     onNewDatePickerTap() : void {
@@ -118,6 +123,7 @@ export class VehicleDatesPage {
     onDateDeleteTap(vehicleDate : VehicleDate) : void {
         this.dispatchDateDelete(vehicleDate);
         this.unRegisterNotification(vehicleDate);
+        this.removeCalendarEntry(vehicleDate);
     }
 
     unRegisterNotification(vehicleDate: VehicleDate) {
@@ -146,7 +152,22 @@ export class VehicleDatesPage {
         if (this.vehicleDate.notifiy) {
           this.registerNotification(this.vehicleDate);
         }
+        if (this.vehicleDate.calendar) {
+          this.calendarEntry(this.vehicleDate);
+        }
         this.toggleDateAdd();
+    }
+
+    calendarEntry(vehicleDate: VehicleDate) {
+      if (this.platform.is('cordova')) {
+        this.calendar.createEvent(vehicleDate.action, vehicleDate.location, null, vehicleDate.date, vehicleDate.date);
+      }
+    }
+
+    removeCalendarEntry(vehicleDate: VehicleDate) {
+      if (this.platform.is('cordova')) {
+        this.calendar.deleteEvent(vehicleDate.action, vehicleDate.location, null, vehicleDate.date, vehicleDate.date);
+      }
     }
 
     dispatchDateDelete(vehicleDate : VehicleDate) : void {

@@ -20,7 +20,14 @@ export class StatisticsPage {
 
   public lineChartData: Array<{data: number[], label: string|ExpenseType}> = [];
   public lineChartOptions: any = {
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
   };
   public lineChartLegend: boolean = true;
   public lineChartType: string = 'line';

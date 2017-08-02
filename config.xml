@@ -81,6 +81,7 @@
     </feature>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <engine name="android" spec="^6.2.3" />
+    <plugin name="cordova-plugin-calendar" spec="^4.6.0" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-datepicker" spec="~0.9.3" />

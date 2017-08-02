@@ -4,4 +4,6 @@ export interface VehicleDate {
     date: Date;
     vehicleId: string;
     notifiy: boolean;
+    calendar: boolean;
+    location: string;
 }

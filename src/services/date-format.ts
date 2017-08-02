@@ -16,8 +16,8 @@ export class DateFormat {
           return dateStr;
         }
 
-        let hour = date.getHours();
-        let minute = date.getMinutes();
+        let hour = DateFormat.leftPad(date.getHours());
+        let minute = DateFormat.leftPad(date.getMinutes());
         return `${dateStr} - ${hour}:${minute}`
     }
 

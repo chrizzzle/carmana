@@ -69,7 +69,7 @@ export class VehicleListPage {
       return -1;
     }
 
-    if (vehicleDates.length > 0 && this.vehicleDateToday(vehicleDates)) {
+    if (this.vehicleDateToday(vehicleDates)) {
       return 1;
     }
 
@@ -163,9 +163,7 @@ export class VehicleListPage {
       const viewExpenseListFn = this.viewExpenseList.bind(this);
       const viewStatisicsFn = this.viewStatisticsFn.bind(this);
 
-      let actionSheet = this.actionSheetCtrl.create({
-      title: 'Fahrzeug bearbeiten',
-      buttons: [
+      let buttons: any = [
         {
           text: 'Löschen',
           role: 'destructive',
@@ -195,17 +193,27 @@ export class VehicleListPage {
           handler: () => {
             viewExpenseListFn(vehicle);
           }
-        }, {
+        }
+      ];
+
+      if (this.hasVehicleStats(vehicle)) {
+        buttons.push({
           text: 'Statistiken',
           handler: () => {
             viewStatisicsFn(vehicle)
           }
-        }, {
-          text: 'Abbrechen',
-          role: 'cancel'
-        }
-      ]
-    });
+        });
+      }
+
+      buttons.push({
+        text: 'Abbrechen',
+        role: 'cancel'
+      });
+
+      let actionSheet = this.actionSheetCtrl.create({
+        title: 'Fahrzeug bearbeiten',
+        buttons: buttons
+      });
     actionSheet.present();
   }
 }
